@@ -655,7 +655,7 @@
   <header>
     <div class="container nav">
       <div class="logo">
-        <a href="/supper healthy.html"><h1>Super Healthy</h1></a>
+        <a href="/"><h1>Super Healthy</h1></a>
       </div>
 
       <!-- mobile menu button (phones only via CSS) -->
@@ -954,8 +954,8 @@
     document.querySelectorAll('.reveal').forEach(el=> io.observe(el));
 
     // ===== Review slider: 3 per line, wrap last -> first =====
-    const track = document.getElementById('reviewTrack');
-    const reviewItems = Array.from(track.children);
+    const reviewTrack = document.getElementById('reviewTrack');
+    let reviewItems = [];
     const trackWrap = document.querySelector('.track-wrap');
     let currentIndex = 0;
 
@@ -982,7 +982,7 @@
 
     function applyTransform(){
       const offset = slideCardWidth() * currentIndex;
-      track.style.transform = `translateX(-${offset}px)`;
+      reviewTrack.style.transform = `translateX(-${offset}px)`;
     }
 
     function slideReviews(dir){
@@ -990,7 +990,7 @@
       currentIndex += dir;
       if (currentIndex < 0) currentIndex = max;
       if (currentIndex > max) currentIndex = 0;
-      track.style.transition = 'transform .5s cubic-bezier(.2,.75,.2,1)';
+      reviewTrack.style.transition = 'transform .5s cubic-bezier(.2,.75,.2,1)';
       applyTransform();
     }
 
