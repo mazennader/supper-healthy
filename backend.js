@@ -23,8 +23,8 @@ app.use(
     proxy: true,
     cookie: {
       httpOnly: true,
-      secure: true,
-      sameSite: "none"
+      secure: true,   // Render = HTTPS → required
+      sameSite: "lax" // ✅ REQUIRED for same-domain admin
     }
   })
 );
@@ -72,6 +72,75 @@ app.post("/api/admin/logout", requireAdmin, (req, res) => {
     res.clearCookie("admin-session");
     res.json({ ok: true });
   });
+});
+// ---------- ADMIN PRODUCTS ----------
+app.get("/api/admin/products", requireAdmin, (req, res) => {
+  const products = db.prepare("SELECT * FROM products ORDER BY id DESC").all();
+  res.json(products);
+});
+
+app.post("/api/admin/products", requireAdmin, (req, res) => {
+  const { name, slug, price, grams, category, image, shortDesc } = req.body;
+
+  if (!name || !slug) {
+    return res.status(400).json({ error: "Name and slug required" });
+  }
+
+  db.prepare(`
+    INSERT INTO products
+    (name, slug, price, grams, category, image, shortDesc, createdAt)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+  `).run(
+    name,
+    slug,
+    price || 0,
+    grams || 0,
+    category || "",
+    image || "",
+    shortDesc || "",
+    Date.now()
+  );
+
+  res.json({ ok: true });
+});
+
+app.put("/api/admin/products/:slug", requireAdmin, (req, res) => {
+  const { price, grams, shortDesc } = req.body;
+
+  db.prepare(`
+    UPDATE products
+    SET price=?, grams=?, shortDesc=?
+    WHERE slug=?
+  `).run(
+    price || 0,
+    grams || 0,
+    shortDesc || "",
+    req.params.slug
+  );
+
+  res.json({ ok: true });
+});
+
+app.delete("/api/admin/products/:slug", requireAdmin, (req, res) => {
+  db.prepare("DELETE FROM products WHERE slug=?").run(req.params.slug);
+  res.json({ ok: true });
+});
+// ---------- ADMIN REVIEWS ----------
+app.get("/api/admin/reviews", requireAdmin, (req, res) => {
+  const reviews = db.prepare("SELECT * FROM reviews ORDER BY id DESC").all();
+  res.json(reviews);
+});
+
+app.put("/api/admin/reviews/:id/approve", requireAdmin, (req, res) => {
+  db.prepare("UPDATE reviews SET approved=1 WHERE id=?")
+    .run(Number(req.params.id));
+  res.json({ ok: true });
+});
+
+app.delete("/api/admin/reviews/:id", requireAdmin, (req, res) => {
+  db.prepare("DELETE FROM reviews WHERE id=?")
+    .run(Number(req.params.id));
+  res.json({ ok: true });
 });
 
 // ---------- API ROUTES ----------
