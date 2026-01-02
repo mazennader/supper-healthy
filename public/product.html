@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Product • Super Healthy</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Product details for Super Healthy." />
+  <style>
+    :root{
+      --primary:#14a3a0; --primary-700:#0f7f7c; --sand:#f7ead2; --ink:#1f2a24;
+      --muted:#6c726f; --accent:#7a4a1f; --accent-700:#8f5a2a; --card:#ffffff;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:auto}
+    body{
+      margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial;
+      color:var(--ink); line-height:1.65;
+      background:
+        radial-gradient(900px 420px at 15% -10%, #e9fbfa 0%, transparent 60%),
+        radial-gradient(700px 360px at 90% 0%, #fff6e8 0%, transparent 60%),
+        linear-gradient(180deg, #fffdfa 0%, #fff7e7 100%);
+      background-attachment: fixed;
+    }
+
+    .container{ width:min(1080px,92vw); margin-inline:auto; }
+
+    header{
+      position:sticky; top:0; z-index:50;
+      background:linear-gradient(180deg, #ffffffee 0%, #ffffffbf 100%);
+      backdrop-filter:saturate(140%) blur(8px);
+      border-bottom:1px solid #efe4cc;
+    }
+    .nav{ display:flex; align-items:center; justify-content:space-between; padding:.75rem .75rem; }
+    .logo a{ text-decoration:none; color:var(--primary); display:inline-block }
+    .logo h1{ margin:0; font-size:clamp(1.05rem,2.2vw,1.5rem); letter-spacing:.2px; font-weight:900 }
+    nav{ display:flex; gap:.25rem; flex-wrap:wrap; }
+    nav a{ text-decoration:none; color:#194746; font-weight:800; padding:.4rem .7rem; border-radius:.8rem; }
+    nav a:hover{ background:#e9fcfb; color:#0e5a58 }
+
+    main{ padding: clamp(1rem, 3vw, 1.6rem) 0 2.2rem; }
+    .card{ background:var(--card); border:1px solid #efe3ca; border-radius:18px; padding:clamp(1rem,3.5vw,1.6rem); box-shadow:0 10px 28px rgba(0,0,0,.07); }
+
+    .breadcrumb{ color:var(--muted); font-weight:600; margin-bottom:1rem }
+    .breadcrumb a{ color:#194746; text-decoration:none; font-weight:900 }
+
+    .detail{ display:grid; gap:1.2rem; grid-template-columns: 1fr; align-items:start }
+    @media (min-width: 900px){ .detail{ grid-template-columns: 1.1fr 1fr } }
+
+    .photo{
+      border:1px solid #efe3ca; border-radius:14px; background:#fff;
+      box-shadow:0 8px 22px rgba(0,0,0,.06); padding:12px;
+    }
+    .photo .img-box{
+      width:100%;
+      min-height: 380px;
+      display:grid; place-items:center;
+      border-radius:10px; background:#fff;
+    }
+    @media (min-width: 900px){ .photo .img-box{ min-height: 500px; } }
+    .photo img{
+      width:auto; height:auto;
+      max-width:100%;
+      max-height:70vh;
+      object-fit:contain;
+      object-position:center;
+      display:block;
+      user-select:none; -webkit-user-drag:none;
+    }
+
+    .title{ margin:.2rem 0 .5rem; font-size:clamp(1.4rem,3vw,2rem); color:#222; }
+    .price{ color:#7a4a1f; margin:.2rem 0 1rem; font-weight:900; }
+    .muted{ color:var(--muted) }
+
+    .actions{
+      display:flex; flex-direction:column; gap:.6rem; margin-top:1rem; width:100%;
+      max-width:320px;
+    }
+    .btn{
+      display:block; text-align:center; text-decoration:none;
+      background:var(--accent); color:#fff; padding:.7rem 1rem;
+      border-radius:.7rem; font-weight:900; border:1px solid #6b3f1a;
+      cursor:pointer;
+    }
+    .btn.secondary{ background:var(--primary); border-color:#0e6b69 }
+    .btn:focus-visible{ outline:3px solid #cfeeed; outline-offset:2px }
+
+    footer{
+      margin-top: clamp(1rem,6vw,2rem); padding:1.6rem 0 2.4rem;
+      border-top:1px solid #eadfc2;
+      background:linear-gradient(180deg, #fff9ec 0%, #fff4db 100%);
+    }
+    /* social icons */
+    .social-links{
+      display:flex;
+      flex-wrap:wrap;
+      gap:.9rem;
+      align-items:center;
+    }
+    .social-link{
+      display:inline-flex;
+      align-items:center;
+      gap:.55rem;
+      text-decoration:none;
+      color:#4b3a2e;
+      font-weight:900;
+      transition: color .2s ease, transform .2s ease;
+    }
+    .social-link:hover{
+      color:var(--accent-700);
+      transform:translateY(-1px);
+    }
+    .social-icon{
+      width:42px;
+      height:42px;
+      border-radius:50%;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      background:#fff;
+    }
+    .social-icon svg{
+      width:80%;
+      height:80%;
+      display:block;
+    }
+    .social-link.insta .social-icon{
+      background: radial-gradient(circle at 30% 30%, #fdf497 0%, #fd5949 40%, #d6249f 70%, #285AEB 100%);
+    }
+    .social-link.fb .social-icon{
+      background:#1877f2;
+    }
+
+    .foot{ display:grid; gap:1rem; grid-template-columns:1fr }
+    @media (min-width:760px){ .foot{ grid-template-columns:auto 1fr auto; align-items:start } }
+    .footer-logo img{ width:100%; max-width:240px; height:auto; object-fit:contain; display:block; border-radius:12px; box-shadow:0 10px 28px rgba(0,0,0,.07); }
+    .foot-links{ display:grid; gap:.45rem }
+    .foot-links a{ text-decoration:none; color:#4b3a2e; font-weight:900; }
+    .foot-links a:hover{ color:#8f5a2a }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="logo"><a href="/supper healthy.html"><h1>Super Healthy</h1></a></div>
+      <nav aria-label="Primary">
+        <a href="/products.html">Products</a>
+        <a href="/who-we-are.html">Who We Are</a>
+        <a href="/locate-us.html">Locate Us</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card" id="app"></section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container foot">
+      <div class="footer-logo">
+        <img src="WhatsApp Image 2025-09-12 at 10.03.25 PM.jpeg" alt="Super Healthy logo" loading="lazy" />
+      </div>
+
+      <nav class="foot-links" aria-label="Footer">
+        <a href="/products.html">Products</a>
+        <a href="/who-we-are.html">Who We Are</a>
+        <a href="/locate-us.html">Locate Us</a>
+        <a href="/contact.html">Contact</a>
+      </nav>
+
+      <div>
+        <h3>Connect with us</h3>
+        <p class="sub" style="margin:.25rem 0 1rem">We love to see your creations—tag us!</p>
+        <p class="social-links">
+          <a class="social-link insta" href="https://www.instagram.com/manoune.lb" target="_blank" rel="noopener noreferrer">
+            <span class="social-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <defs>
+                  <radialGradient id="igGrad1" cx="50%" cy="50%" r="70%">
+                    <stop offset="0%" stop-color="#fdf497"/>
+                    <stop offset="40%" stop-color="#fd5949"/>
+                    <stop offset="70%" stop-color="#d6249f"/>
+                    <stop offset="100%" stop-color="#285AEB"/>
+                  </radialGradient>
+                </defs>
+                <rect x="2" y="2" width="20" height="20" rx="6" fill="url(#igGrad1)"/>
+                <rect x="6.5" y="6.5" width="11" height="11" rx="3.3" fill="none" stroke="#fff" stroke-width="1.6"/>
+                <circle cx="12" cy="12" r="3.2" fill="none" stroke="#fff" stroke-width="1.6"/>
+                <circle cx="16.3" cy="7.7" r="1.1" fill="#fff"/>
+              </svg>
+            </span>
+          </a>
+          <a class="social-link fb" href="https://www.facebook.com/superhealthyhomemade" target="_blank" rel="noopener noreferrer">
+            <span class="social-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="12" fill="#1877F2"/>
+                <path d="M13.5 8H15V5.7h-1.6C10.9 5.7 10 7.3 10 9.3V11H8v2.3h2v5h2.4v-5H14V11h-1.6V9.3c0-.8.3-1.3 1.1-1.3Z" fill="#fff"/>
+              </svg>
+            </span>
+          </a>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ========= Helpers =========
+    function currencySymbol(code){
+      const map = { USD:'$', EUR:'€', GBP:'£', LBP:'LBP' };
+      return map[String(code||'').toUpperCase()] || '$';
+    }
+    function fmtPrice(n, code){
+      const v = Number(n);
+      if (!Number.isFinite(v)) return '';
+      return currencySymbol(code) + v.toFixed(2).replace(/\.00$/,'');
+    }
+    function waLink(phone, name){
+      const msg = `Hey, I want to know more about: ${name}`;
+      return `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+    }
+    function getRequestedParams(){
+      const params = new URLSearchParams(location.search);
+      return { id: params.get('id'), slug: params.get('slug') || params.get('p') };
+    }
+    function normalizeImgSrc(src){
+      if (!src) return '';
+      let s = String(src).trim();
+      s = s.replace(/\\/g, '/');
+      if (/^https?:\/\//i.test(s)) return s;
+      if (s.startsWith('public/images/')) return '/' + s.replace(/^public\//, '');
+      if (s.startsWith('/public/images/')) return s.replace('/public/images/', '/images/');
+      if (s.startsWith('images/')) return '/' + s;
+      if (s.startsWith('/images/')) return s;
+      if (s.startsWith('products/')) return '/images/' + s;
+      if (!s.includes('/')) return '/images/products/' + s;
+      return s;
+    }
+
+    async function tryFetch(url, options){
+      try { return await fetch(url, options); } catch(e){ return null; }
+    }
+    async function fetchAllProductsSmart(){
+      const res = await tryFetch('/api/products', { cache:'no-store' });
+      if (res && res.ok) return await res.json();
+      throw new Error('Could not load /api/products');
+    }
+    async function fetchProductBySlugSmart(slug){
+      const res = await tryFetch(`/api/products/${encodeURIComponent(slug)}`, { cache:'no-store' });
+      if (res && res.ok) return await res.json();
+      const all = await fetchAllProductsSmart();
+      const products = Array.isArray(all.products) ? all.products : [];
+      return products.find(p => String(p.slug) === String(slug)) || null;
+    }
+
+    async function render(){
+      const root = document.getElementById('app');
+      root.innerHTML = `<p class="muted">Loading product…</p>`;
+      try{
+        const { id, slug } = getRequestedParams();
+        const all = await fetchAllProductsSmart();
+        const currency = all.currency || 'USD';
+        const phone = all.whatsapp_phone || '';
+        const products = Array.isArray(all.products) ? all.products : [];
+
+        let product = null;
+        if (slug) product = await fetchProductBySlugSmart(slug);
+        if (!product && id){
+          const found = products.find(x => String(x.id) === String(id));
+          if (found?.slug) product = await fetchProductBySlugSmart(found.slug);
+        }
+        if(!product){
+          root.innerHTML = `<p class="muted">Product not found. <a href="/products.html">Back to products</a></p>`;
+          return;
+        }
+
+        document.title = `${product.name} • Super Healthy`;
+        const imgSrc = normalizeImgSrc(product.image);
+
+        root.innerHTML = `
+          <nav class="breadcrumb">
+            <a href="/supper healthy.html">Home</a> › <a href="/products.html">Products</a> › ${product.name}
+          </nav>
+
+          <div class="detail">
+            <div class="photo">
+              <div class="img-box">
+                <img src="${imgSrc}" alt="${product.name}" onerror="this.style.opacity=0.3">
+              </div>
+            </div>
+
+            <div>
+              <h1 class="title">${product.name}</h1>
+              <p class="price">${fmtPrice(product.price, currency)}</p>
+              <p><strong>Weight:</strong> ${product.grams} grams</p>
+              <p>${product.shortDesc || ''}</p>
+
+              <div class="actions">
+                <a class="btn" href="/products.html">Back to all products</a>
+                ${phone ? `<a class="btn secondary" target="_blank" rel="noopener" href="${waLink(phone, product.name)}">Contact on WhatsApp</a>` : ''}
+              </div>
+            </div>
+          </div>
+        `;
+      }catch(e){
+        console.error(e);
+        root.innerHTML = `<p class="muted">Could not load product data. Make sure you opened the site from your backend (http://localhost:3000) so /api/products works.</p>`;
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', render);
+    } else { render(); }
+  </script>
+</body>
+</html>

@@ -1,0 +1,222 @@
+{
+  "currency": "USD",
+  "whatsapp_phone": "96103493448",
+  "products": [
+    {
+      "id": 1,
+      "slug": "hemp-brittle",
+      "name": "Hemp brittle",
+      "price": 6,
+      "category": "Brittle",
+      "image": "public/images/products/product-hemp-brittle.jpeg",
+      "images": [
+        "public/images/products/product-hemp-brittle.jpeg"
+      ],
+      "shortDesc": "mazen"
+    },
+    {
+      "id": 2,
+      "slug": "chia-power-brittle",
+      "name": "chia power brittle",
+      "price": 6,
+      "category": "Brittle",
+      "image": "public/images/products/product-chia-brittle.jpeg",
+      "images": [
+        "public/images/products/product-chia-brittle.jpeg"
+      ],
+      "shortDesc": ""
+    },
+    {
+      "id": 3,
+      "slug": "energy-brittle",
+      "name": "energy brittle",
+      "price": 6,
+      "category": "Brittle",
+      "image": "public/images/products/product-energy-brittle.jpeg",
+      "images": [
+        "public/images/products/product-energy-brittle.jpeg"
+      ],
+      "shortDesc": ""
+    },
+    {
+      "id": 4,
+      "slug": "black-rice-brittle",
+      "name": "black rice brittle",
+      "price": 6,
+      "category": "Brittle",
+      "image": "public/images/products/product-black-rice-brittle.jpeg",
+      "images": [
+        "public/images/products/product-black-rice-brittle.jpeg"
+      ],
+      "shortDesc": ""
+    },
+    {
+      "id": 5,
+      "slug": "nigella-brittle",
+      "name": "nigella brittle",
+      "price": 6,
+      "category": "Brittle",
+      "image": "public/images/products/product-ningella-brittle.jpeg",
+      "images": [
+        "public/images/products/product-ningella-brittle.jpeg"
+      ],
+      "shortDesc": ""
+    },
+    {
+      "id": 6,
+      "slug": "pumpkin-brittle",
+      "name": "pumpkin brittle",
+      "price": 6,
+      "category": "Brittle",
+      "image": "public/images/products/product-pumkin-brittle.jpeg",
+      "images": [
+        "public/images/products/product-pumkin-brittle.jpeg"
+      ],
+      "shortDesc": ""
+    },
+    {
+      "id": 7,
+      "slug": "thyme-crackers",
+      "name": "thyme crackers",
+      "price": 6,
+      "category": "Crackers",
+      "image": "public/images/products/product-thyme-crackers.jpeg",
+      "images": [
+        "public/images/products/product-thyme-crackers.jpeg"
+      ],
+      "shortDesc": ""
+    },
+    {
+      "id": 8,
+      "slug": "olive-crackers",
+      "name": "olive crackers",
+      "price": 6,
+      "category": "Crackers",
+      "image": "public/images/products/product-olive-crackers.jpeg",
+      "images": [
+        "public/images/products/product-olive-crackers.jpeg"
+      ],
+      "shortDesc": ""
+    },
+    {
+      "id": 9,
+      "slug": "rosemary-crackers",
+      "name": "rosemary crackers",
+      "price": 6,
+      "category": "Crackers",
+      "image": "public/images/products/product-rosemary-crackers.jpeg",
+      "images": [
+        "public/images/products/product-rosemary-crackers.jpeg"
+      ],
+      "shortDesc": ""
+    },
+    {
+      "id": 10,
+      "slug": "chocolate-crackers",
+      "name": "chocolate crackers",
+      "price": 6,
+      "category": "Crackers",
+      "image": "public/images/products/product-chocolate-crackers.jpeg",
+      "images": [
+        "public/images/products/product-chocolate-crackers.jpeg"
+      ],
+      "shortDesc": ""
+    },
+    {
+      "id": 11,
+      "slug": "anise-turmeric",
+      "name": "anis and tumeric",
+      "price": 6,
+      "category": "Crackers",
+      "image": "public/images/products/product-anise-turmeric-crackers.jpeg",
+      "images": [
+        "public/images/products/product-anise-turmeric-crackers.jpeg"
+      ],
+      "shortDesc": ""
+    },
+    {
+      "id": 12,
+      "slug": "granola",
+      "name": "granola",
+      "price": 10,
+      "category": "Granola",
+      "image": "public/images/products/product-granola.jpeg",
+      "images": [
+        "public/images/products/product-granola.jpeg"
+      ],
+      "shortDesc": ""
+    },
+    {
+      "id": 13,
+      "slug": "activated-seeds",
+      "name": "activated seeds",
+      "price": 10,
+      "category": "Seeds",
+      "image": "public/images/products/product-activated-seeds.jpeg",
+      "images": [
+        "public/images/products/product-activated-seeds.jpeg"
+      ],
+      "shortDesc": ""
+    },
+    {
+      "id": 14,
+      "slug": "cashew-and-pistachio-bar",
+      "name": "cashew and pistachio bar",
+      "price": 2,
+      "category": "Bars",
+      "image": "public/images/products/product-cashew-and-pistachio-bar.jpeg",
+      "images": [
+        "public/images/products/product-cashew-pistachio-bar.jpeg"
+      ],
+      "shortDesc": ""
+    },
+    {
+      "id": 15,
+      "slug": "peanut-bar",
+      "name": "peanuts bar",
+      "price": 2,
+      "category": "Bars",
+      "image": "public/images/products/product-peanut-bar.jpeg",
+      "images": [
+        "public/images/products/product-peanut-bar.jpeg"
+      ],
+      "shortDesc": ""
+    },
+    {
+      "id": 16,
+      "slug": "sesame-bar",
+      "name": "sesame bar",
+      "price": 2,
+      "category": "Bars",
+      "image": "public/images/products/product-sesame-bar.jpeg",
+      "images": [
+        "public/images/products/product-sesame-bar.jpeg"
+      ],
+      "shortDesc": ""
+    },
+    {
+      "id": 17,
+      "slug": "coconut-bar",
+      "name": "coconut bar",
+      "price": 2,
+      "category": "Bars",
+      "image": "public/images/products/product-coconut-bar.jpeg",
+      "images": [
+        "public/images/products/product-coconut-bar.jpeg"
+      ],
+      "shortDesc": ""
+    },
+    {
+      "id": 18,
+      "slug": "seeds-paleo-bar",
+      "name": "seeds paleo bar",
+      "price": 2,
+      "category": "Bars",
+      "image": "public/images/products/product-seeds-paleo-bar.jpeg",
+      "images": [
+        "public/images/products/product-seeds-paleo-bar.jpeg"
+      ],
+      "shortDesc": ""
+    }
+  ]
+}

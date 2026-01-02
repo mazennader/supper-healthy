@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Super Healthy – Fresh & Crunchy</title>
+  <meta name="description" content="Super Healthy: seeds, snacks, and wholesome products. Discover new arrivals, find a store, and read real reviews." />
+  <style>
+    :root{
+      --primary:#14a3a0;
+      --primary-700:#0f7f7c;
+      --sand:#f7ead2;
+      --ink:#1f2a24;
+      --muted:#6c726f;
+      --accent:#7a4a1f;
+      --accent-700:#8f5a2a;
+      --card:#ffffff;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";
+      color:var(--ink);
+      line-height:1.65;
+      background:
+        radial-gradient(900px 420px at 15% -10%, #e9fbfa 0%, transparent 60%),
+        radial-gradient(700px 360px at 90% 0%, #fff6e8 0%, transparent 60%),
+        linear-gradient(180deg, #fffdfa 0%, #fff7e7 100%);
+      background-attachment: fixed;
+      overflow-x: hidden;
+    }
+
+    /* Scroll progress bar */
+    .progress{
+      position:fixed; top:0; left:0; height:4px; width:0%;
+      background:linear-gradient(90deg,#14a3a0,#0f7f7c);
+      z-index:9999; box-shadow:0 0 12px #14a3a0aa;
+      transform-origin:left center;
+    }
+
+    /* container */
+    .container{ width:min(1080px,92vw); margin-inline:auto; }
+
+    /* header */
+    header{
+      position:sticky; top:0; z-index:50;
+      background:linear-gradient(180deg, #ffffffee 0%, #ffffffbf 100%);
+      backdrop-filter: saturate(140%) blur(8px);
+      border-bottom:1px solid #efe4cc;
+    }
+    .nav{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:.75rem .75rem;
+      gap:.6rem;
+    }
+    .logo a{ text-decoration:none; color:var(--primary); display:inline-block }
+    .logo h1{ margin:0; font-size:clamp(1.05rem,2.2vw,1.5rem); letter-spacing:.2px; font-weight:900 }
+
+    nav{ display:flex; gap:.25rem; flex-wrap:wrap; }
+    nav a{
+      --pad:.6rem;
+      position:relative;
+      text-decoration:none; color:#194746; font-weight:800;
+      padding:.4rem .7rem;
+      border-radius:.8rem;
+      transition: transform .2s ease, background .25s ease, color .25s ease;
+      font-size:.9rem;
+    }
+    nav a::after{
+      content:"";
+      position:absolute; left:var(--pad); right:var(--pad); bottom:.25rem; height:2px;
+      background:linear-gradient(90deg, transparent, var(--primary), transparent);
+      transform:scaleX(0); transform-origin:center;
+      transition:transform .25s ease;
+    }
+    nav a:hover{ background:#e9fcfb; color:#0e5a58; transform:translateY(-1px) }
+    nav a:hover::after{ transform:scaleX(1) }
+
+    /* ===== MENU BUTTON (phones only) ===== */
+    .nav-toggle{
+      display:none; /* shows only in mobile media query */
+      border:1px solid #cbe9e7;
+      background:#ffffff;
+      border-radius:999px;
+      padding:.45rem .7rem;
+      font-size:.9rem;
+      line-height:1;
+      cursor:pointer;
+      align-items:center;
+      gap:.35rem;
+      white-space:nowrap;
+    }
+    .nav-toggle-text{
+      font-weight:800;
+      color:#194746;
+    }
+    .nav-toggle-icon{
+      position:relative;
+      width:18px;
+      height:14px;
+    }
+    .nav-toggle-icon::before,
+    .nav-toggle-icon::after,
+    .nav-toggle-icon span{
+      content:"";
+      position:absolute;
+      left:0; right:0;
+      height:2px;
+      border-radius:999px;
+      background:#194746;
+      transition:transform .2s ease, opacity .2s ease, top .2s ease, bottom .2s ease;
+    }
+    .nav-toggle-icon::before{ top:0; }
+    .nav-toggle-icon::after{ bottom:0; }
+    .nav-toggle-icon span{ top:50%; transform:translateY(-50%); }
+
+    .nav-toggle[aria-expanded="true"] .nav-toggle-icon::before{
+      top:50%;
+      transform:translateY(-50%) rotate(45deg);
+    }
+    .nav-toggle[aria-expanded="true"] .nav-toggle-icon::after{
+      bottom:50%;
+      transform:translateY(50%) rotate(-45deg);
+    }
+    .nav-toggle[aria-expanded="true"] .nav-toggle-icon span{
+      opacity:0;
+    }
+
+    /* Floating seeds background (subtle) */
+    .floaters{ position:fixed; inset:0; pointer-events:none; z-index:0; }
+    .seed{
+      position:absolute; width:10px; height:10px; border-radius:50%;
+      background:#14a3a022; filter:blur(.2px);
+      animation: drift var(--dur,12s) linear forwards;
+    }
+    @keyframes drift{
+      from{ transform:translate3d(var(--sx,0), 110vh, 0) scale(.9); opacity:0 }
+      10%{opacity:.6}
+      to{ transform:translate3d(calc(var(--sx,0) + var(--dx,0)), -10vh, 0) scale(1.1); opacity:0 }
+    }
+
+    /* hero */
+    .hero{ padding:1rem 0 0; position:relative; z-index:1; }
+    .hero-box{
+      position:relative; border-radius:24px; overflow:hidden;
+      box-shadow:0 18px 46px rgba(0,0,0,.1);
+      background:#ffffff;
+    }
+    .hero-box img{
+      width:100%;
+      height:auto;
+      max-height:520px;
+      object-fit:contain;
+      object-position:center;
+      display:block;
+      transition: transform .9s cubic-bezier(.2,.65,.2,1);
+      will-change: transform;
+    }
+    .hero-box:hover img{ transform: scale(1.02); }
+
+    .hero-glow{ display:none; }
+
+    /* sections */
+    .section{ padding: clamp(1.4rem, 4vw, 2.2rem) 0 }
+    .card{
+      background:var(--card);
+      border:1px solid #efe3ca;
+      border-radius:18px;
+      padding:clamp(1rem, 3.5vw, 1.8rem);
+      box-shadow:0 10px 30px rgba(0,0,0,.07);
+      transform: translateY(0);
+    }
+    h2{ margin:.1rem 0 .6rem; font-size:clamp(1.2rem,2.6vw,1.7rem) }
+    .sub{ color:var(--muted); margin:.15rem 0 1rem }
+
+    /* animated marquee badge */
+    .marquee{
+      overflow:hidden; border-radius:999px; border:1px solid #d8efe7; background:#edfffd;
+    }
+    .marquee-inner{
+      display:flex; flex-wrap:nowrap; width:max-content;
+      padding:.38rem 0;
+      font-weight:900; letter-spacing:.4px; color:#0f7f7c;
+      animation:scrollx 14s linear infinite;
+      will-change:transform;
+      font-size:.8rem;
+    }
+    .marquee-inner > span{ padding:0 .9rem; flex:0 0 auto; }
+    @keyframes scrollx{
+      0%   { transform:translateX(0); }
+      100% { transform:translateX(-50%); }
+    }
+
+    /* grid products */
+    .grid{ display:grid; gap:1rem; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+    .product{
+      border:1px solid #efe3ca; border-radius:16px; padding:1rem; text-align:center;
+      background:#fff; box-shadow:0 8px 22px rgba(0,0,0,.06);
+      transform: perspective(900px) rotateX(0) rotateY(0) translateY(0);
+      transition: transform .25s ease, box-shadow .25s ease;
+      will-change: transform;
+    }
+    .product:hover{ transform: translateY(-6px) rotateX(2deg); box-shadow:0 18px 40px rgba(0,0,0,.1) }
+    .product img{ width:180px; max-width:100%; height:auto; border-radius:12px; display:block; margin-inline:auto }
+
+    .actions{ margin-top:1rem; display:flex; gap:.6rem; flex-wrap:wrap; justify-content:center }
+    .btn{
+      position:relative; overflow:hidden;
+      background:var(--accent); color:#fff; text-decoration:none; font-weight:900;
+      padding:.65rem 1rem; border-radius:.75rem; border:1px solid #6b3f1a;
+      transition: transform .12s ease, box-shadow .2s ease;
+      box-shadow:0 10px 24px rgba(122,74,31,.22);
+      font-size:.9rem;
+    }
+    .btn:hover{ transform: translateY(-1px); box-shadow:0 16px 36px rgba(122,74,31,.28) }
+    .btn::after{
+      content:""; position:absolute; inset:-40% -40%;
+      background: conic-gradient(from 90deg, #ffffff70, transparent 30%, transparent);
+      transform: rotate(0deg);
+      transition: transform .5s ease;
+      mix-blend-mode: overlay;
+    }
+    .btn:hover::after{ transform: rotate(25deg) }
+
+    /* about */
+    .about{ display:grid; gap:1.2rem; align-items:center; grid-template-columns:1fr }
+    @media (min-width: 860px){ .about{ grid-template-columns: 1fr 1.2fr } }
+    .about img{
+      width:100%; max-width:440px; height:auto; border-radius:16px;
+      box-shadow:0 14px 36px rgba(0,0,0,.1);
+      transform: translateZ(0);
+      transition: transform .5s ease;
+    }
+    .about img:hover{ transform: scale(1.02) }
+
+    /* follow gallery base (desktop/tablet) */
+    .gallery{ display:grid; gap:.8rem; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) }
+    .gallery img{
+      width:100%; height:240px; object-fit:cover; border-radius:14px; display:block;
+      transform: perspective(900px) rotateX(0) rotateY(0);
+      transition: transform .35s ease, box-shadow .35s ease;
+      box-shadow:0 10px 26px rgba(0,0,0,.08);
+    }
+    .gallery img:hover{ transform: perspective(900px) rotateX(2deg) translateY(-4px); box-shadow:0 18px 44px rgba(0,0,0,.14) }
+
+    /* follow gallery slider wrapper */
+    .follow-slider{
+      position:relative;
+    }
+    .gal-arrow{
+      display:none; /* only show on phones */
+    }
+
+    /* reviews */
+    .reviews{
+      background:linear-gradient(135deg, #15b9b6 0%, #0f8f8c 100%);
+      color:#fff; border:1px solid #0f8f8c; border-radius:18px;
+      box-shadow:0 18px 44px rgba(17,146,141,.28);
+    }
+
+    /* layout: arrow – cards – arrow */
+    .slider{
+      position:relative;
+      padding:0 3.5rem; /* space for arrows left/right */
+    }
+
+    /* middle viewport that clips the sliding cards */
+    .track-wrap{
+      overflow:hidden;
+    }
+
+    /* sliding row of cards */
+    .track{
+      display:flex;
+      transition: transform .5s cubic-bezier(.2,.75,.2,1);
+    }
+
+    .card-r{
+      flex:0 0 auto;
+      width:min(320px, 86vw);
+      margin:.7rem auto .7rem;
+      border:1px solid #ffffffa8; border-radius:14px; background:#ffffff14;
+      padding:1rem 1.1rem; backdrop-filter: blur(1px);
+      box-shadow:0 8px 20px rgba(0,0,0,.14);
+      transform: translateY(0);
+      transition: transform .25s ease;
+    }
+    .card-r:hover{ transform: translateY(-4px) }
+    .card-r h3{ margin:.1rem 0 .4rem; font-size:1.05rem }
+    .author{ display:block; margin-top:.8rem; font-weight:900 }
+
+    /* arrows – perfectly centered vertically */
+    .arrow{
+      position:absolute;
+      top:50%;
+      transform:translateY(-50%);
+      width:46px;
+      height:46px;
+      border-radius:999px;
+      display:grid;
+      place-items:center;
+      background:rgba(255,255,255,.96);
+      color:#0f7f7c;
+      border:1px solid #cbe9e7;
+      cursor:pointer;
+      box-shadow:0 8px 20px rgba(0,0,0,.18);
+      font-size:1.4rem;
+    }
+    .arrow.left{ left:0rem; }
+    .arrow.right{ right:0rem; }
+
+    .arrow:hover{
+      box-shadow:0 10px 24px rgba(0,0,0,.22);
+      background:#ffffff;
+    }
+    .arrow:focus-visible{ outline:3px solid #fff }
+
+    /* smaller adjustments on medium phones */
+    @media (max-width:640px){
+      .slider{ padding:0 3rem; }
+      .card-r{ margin:.6rem auto 1rem; }
+    }
+    /* ===== ADD REVIEW FORM ===== */
+.review-form{
+  display:grid;
+  gap:1rem;
+  max-width:520px;
+}
+
+.form-group{
+  display:flex;
+  flex-direction:column;
+  gap:.25rem;
+}
+
+.form-group label{
+  font-weight:900;
+  font-size:.85rem;
+}
+
+.review-form input,
+.review-form textarea{
+  padding:.6rem .7rem;
+  border-radius:.6rem;
+  border:1px solid #e0d4b8;
+  font-family:inherit;
+  font-size:.9rem;
+}
+
+.review-form input:focus,
+.review-form textarea:focus{
+  outline:none;
+  border-color:var(--primary);
+  box-shadow:0 0 0 2px #14a3a033;
+}
+
+    /* footer */
+    footer{
+      margin-top: clamp(1rem,6vw,2rem); padding:1.6rem 0 2.4rem;
+      border-top:1px solid #eadfc2;
+      background:linear-gradient(180deg, #fff9ec 0%, #fff4db 100%);
+    }
+    .foot{ display:grid; gap:1rem; grid-template-columns:1fr }
+    @media (min-width:760px){ .foot{ grid-template-columns:auto 1fr auto; align-items:start } }
+    .footer-logo img{
+      width:100%; max-width:240px; height:auto; object-fit:contain; display:block;
+      border-radius:12px; box-shadow:0 10px 28px rgba(0,0,0,.07);
+      transition: transform .35s ease;
+    }
+    .footer-logo img:hover{ transform: translateY(-3px) }
+    .foot-links{ display:grid; gap:.45rem }
+    .foot-links a{ text-decoration:none; color:#4b3a2e; font-weight:900; transition: color .2s ease, transform .2s ease }
+    .foot-links a:hover{ color:var(--accent-700); transform: translateX(2px) }
+
+    /* social icons */
+    .social-links{
+      display:flex;
+      flex-wrap:wrap;
+      gap:.9rem;
+      align-items:center;
+    }
+    .social-link{
+      display:inline-flex;
+      align-items:center;
+      gap:.55rem;
+      text-decoration:none;
+      color:#4b3a2e;
+      font-weight:900;
+      transition: color .2s ease, transform .2s ease;
+    }
+    .social-link:hover{
+      color:var(--accent-700);
+      transform:translateY(-1px);
+    }
+    .social-icon{
+      width:42px;
+      height:42px;
+      border-radius:50%;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      background:#fff;
+    }
+    .social-icon svg{
+      width:80%;
+      height:80%;
+      display:block;
+    }
+    .social-link.insta .social-icon{
+      background: radial-gradient(circle at 30% 30%, #fdf497 0%, #fd5949 40%, #d6249f 70%, #285AEB 100%);
+    }
+    .social-link.fb .social-icon{
+      background:#1877f2;
+    }
+
+    /* section reveal base + stagger */
+    .reveal{ opacity:0; transform: translateY(16px); }
+    .reveal.in{ opacity:1; transform:none; transition: opacity .6s ease, transform .6s ease; }
+    .reveal.in > *{
+      --d:0ms;
+      opacity:0; transform: translateY(12px);
+      animation: up .5s cubic-bezier(.2,.75,.2,1) var(--d) forwards;
+    }
+    .reveal.in > *:nth-child(1){ --d:60ms }
+    .reveal.in > *:nth-child(2){ --d:120ms }
+    .reveal.in > *:nth-child(3){ --d:180ms }
+    .reveal.in > *:nth-child(4){ --d:240ms }
+    .reveal.in > *:nth-child(5){ --d:300ms }
+    @keyframes up{ to{ opacity:1; transform:none } }
+
+    /* Mobile sticky CTA bar */
+    .sticky-cta{
+      position:fixed; left:0; right:0; bottom:0; z-index:9997;
+      background:#0f7f7c; color:#fff; border-top:2px solid #0e6b69;
+      display:flex; align-items:center; gap:.6rem; padding:.6rem .75rem;
+      box-shadow:0 -10px 24px rgba(0,0,0,.18);
+    }
+    .sticky-cta .s-cta-btn{
+      flex:1; text-align:center; text-decoration:none; color:#0f7f7c; background:#fff;
+      padding:.7rem .9rem; border-radius:12px; font-weight:900; border:1px solid #cbe9e7;
+      box-shadow:0 8px 18px rgba(255,255,255,.18) inset;
+      font-size:.9rem;
+    }
+    .sticky-cta .close-cta{
+      background:transparent; border:1px solid #cbe9e7; color:#fff; border-radius:999px;
+      width:36px; height:36px; display:grid; place-items:center; font-size:1.1rem;
+    }
+    @media (min-width: 820px){
+      .sticky-cta{ display:none; }
+    }
+
+    /* Reduced motion support via class */
+    .no-anim *, .no-anim *::before, .no-anim *::after{
+      animation: none !important;
+      transition: none !important;
+      scroll-behavior: auto !important;
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *{ animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important }
+      .progress{ display:none }
+    }
+
+    /* Back-to-Top button */
+    .to-top{
+      position:fixed; right:14px; bottom:70px; z-index:9996;
+      width:44px; height:44px; border-radius:999px; border:0; cursor:pointer;
+      display:grid; place-items:center;
+      background:#14a3a0; color:#fff;
+      box-shadow:0 10px 24px rgba(0,0,0,.18);
+      opacity:0; transform: translateY(10px);
+      transition: opacity .25s ease, transform .25s ease, box-shadow .2s ease;
+    }
+    .to-top:hover{ box-shadow:0 14px 34px rgba(0,0,0,.22) }
+    .to-top.show{ opacity:1; transform:none }
+    @media (min-width:820px){ .to-top{ bottom:20px; } }
+
+    /* ====== EXTRA RESPONSIVE TWEAKS ====== */
+    @media (max-width: 900px){
+      .nav{
+        flex-wrap:wrap;
+        justify-content:space-between;
+      }
+      nav{
+        justify-content:flex-start;
+      }
+      .gallery img{
+        height:200px;
+      }
+      .section{
+        padding:1.3rem 0;
+      }
+    }
+
+    @media (max-width: 600px){
+      .nav{
+        flex-direction:column;
+        align-items:flex-start;
+        padding:.6rem .75rem;
+      }
+      nav{
+        width:100%;
+        justify-content:flex-start;
+        gap:.3rem;
+      }
+      nav a{
+        padding:.35rem .65rem;
+        font-size:.85rem;
+      }
+      .hero{
+        padding:.75rem 0 0;
+      }
+      .hero-box{
+        border-radius:18px;
+      }
+      h2{
+        font-size:1.1rem;
+      }
+      .card{
+        padding:.9rem .85rem;
+      }
+      .product{
+        padding:.7rem;
+      }
+      .product img{
+        width:150px;
+      }
+      .gallery img{
+        height:180px;
+      }
+      .actions{
+        flex-direction:column;
+        align-items:stretch;
+      }
+      .btn{
+        width:100%;
+        text-align:center;
+      }
+      .slider{
+        padding:0 2.7rem;
+      }
+      .arrow{
+        width:40px;
+        height:40px;
+        font-size:1.2rem;
+      }
+      .sticky-cta{
+        padding:.55rem .7rem;
+        gap:.5rem;
+      }
+      .sticky-cta .s-cta-btn{
+        padding:.6rem .75rem;
+        font-size:.85rem;
+      }
+      footer{
+        padding:1.3rem 0 2rem;
+      }
+
+      .reviews .track-wrap{
+        overflow:hidden;
+      }
+      .reviews .track{
+        display:flex;
+      }
+      .reviews .card-r{
+        width:100%;
+        margin:.6rem 0 .8rem;
+      }
+    }
+
+    @media (max-width:720px){
+      .nav{
+        flex-direction:row;
+        align-items:center;
+        justify-content:space-between;
+        padding:.6rem .75rem;
+      }
+
+      .nav-toggle{
+        display:flex;
+      }
+
+      header nav{
+        position:absolute;
+        inset-inline:0;
+        top:100%;
+        margin-inline:auto;
+        padding:.6rem .9rem .9rem;
+        background:#ffffffee;
+        border-bottom:1px solid #efe4cc;
+        backdrop-filter:saturate(140%) blur(8px);
+        display:none;
+        flex-wrap:wrap;
+        gap:.4rem;
+        z-index:40;
+      }
+      header nav.open{
+        display:flex;
+      }
+      header nav a{
+        flex:1 1 100%;
+        text-align:left;
+      }
+
+      .gallery-track-wrap{
+        overflow:hidden;
+      }
+      .gallery{
+        display:flex;
+        gap:0;
+        transform:translateX(0);
+      }
+      .gallery img{
+        flex:0 0 100%;
+        height:220px;
+        object-fit:cover;
+      }
+      .follow-slider{
+        padding:0 2.7rem;
+      }
+      .gal-arrow{
+        display:grid;
+        place-items:center;
+        position:absolute;
+        top:50%;
+        transform:translateY(-50%);
+        width:40px;
+        height:40px;
+        border-radius:999px;
+        border:1px solid #cbe9e7;
+        background:#fff;
+        box-shadow:0 8px 18px rgba(0,0,0,.18);
+        font-size:1.2rem;
+        color:#0f7f7c;
+        cursor:pointer;
+      }
+      .gal-arrow.left{ left:0; }
+      .gal-arrow.right{ right:0; }
+      .gal-arrow:active{
+        transform:translateY(-50%) scale(.96);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Progress -->
+  <div class="progress" id="progress"></div>
+
+  <!-- Subtle floating seeds -->
+  <div class="floaters" id="floaters" aria-hidden="true"></div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="container nav">
+      <div class="logo">
+        <a href="/supper healthy.html"><h1>Super Healthy</h1></a>
+      </div>
+
+      <!-- mobile menu button (phones only via CSS) -->
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+        <span class="nav-toggle-icon" aria-hidden="true">
+          <span></span>
+        </span>
+        <span class="nav-toggle-text">Menu</span>
+      </button>
+
+      <nav id="primaryNav" aria-label="Primary">
+        <a href="/products.html">Products</a>
+        <a href="/who-we-are.html">Who We Are</a>
+        <a href="/locate-us.html">Locate Us</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- HERO -->
+    <section class="hero reveal">
+      <div class="container">
+        <div class="hero-box" id="heroBox">
+          <div class="hero-glow"></div>
+          <img src="WhatsApp Image 2025-09-12 at 10.03.25 PM.jpeg" alt="Super Healthy assortment of wholesome products">
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section class="section reveal">
+      <div class="container card">
+        <div class="marquee" aria-hidden="true">
+          <div class="marquee-inner">
+            <span>NEW!</span><span>FRESH BATCH</span><span>LIMITED MIX</span><span>CRUNCH TIME</span>
+            <span>NEW!</span><span>FRESH BATCH</span><span>LIMITED MIX</span><span>CRUNCH TIME</span>
+          </div>
+        </div>
+
+        <h2>Just dropped</h2>
+        <p class="sub">Fresh seed mixes and crunchy clusters—crafted with simple, clean ingredients.</p>
+
+        <!-- ✅ Featured products appear here (you choose the 3 slugs in the script) -->
+        <div class="grid" id="latestGrid" role="list" aria-live="polite"></div>
+
+        <div class="actions">
+          <a class="btn mag" href="/products.html" id="allProductsBtn">All Products</a>
+          <a class="btn mag" href="/locate-us.html">Store Locator</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="section reveal">
+      <div class="container card about">
+        <img src="WhatsApp Image 2025-09-13 at 8.30.13 PM.jpeg" alt="Healthy bowl with assorted seeds" loading="lazy" />
+        <div>
+          <h2>Seeds Benefits</h2>
+          <p class="sub">Rich in healthy fats, protein, and essential minerals, seeds enhance both flavor and nutrition.</p>
+          <a class="btn mag" href="/learn-more-seeds.html">Learn more about our seeds</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOLLOW -->
+    <section class="section reveal">
+      <div class="container card">
+        <h2>Follow us @manoune.lb</h2>
+
+        <!-- wrapper for mobile slider -->
+        <div class="follow-slider" aria-roledescription="carousel" aria-label="Follow us photos">
+          <!-- arrows (only visible on phones) -->
+          <button class="gal-arrow left" type="button" aria-label="Previous photo" onclick="slideFollow(-1)">‹</button>
+
+          <div class="gallery-track-wrap">
+            <div class="gallery" id="followTrack">
+              <img src="pic-1.jpeg" alt="Handful of mixed seeds" loading="lazy" />
+              <img src="pic-2.jpeg" alt="Granola and yogurt bowl" loading="lazy" />
+              <img src="pic-3.jpeg" alt="Jars of seed mixes on a counter" loading="lazy" />
+            </div>
+          </div>
+
+          <button class="gal-arrow right" type="button" aria-label="Next photo" onclick="slideFollow(1)">›</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- REVIEWS -->
+<section class="section reveal">
+  <div class="container card reviews">
+    <h2>Real ingredients, real reviews</h2>
+
+    <div class="slider" aria-roledescription="carousel" aria-label="Customer reviews">
+      <button class="arrow left" aria-label="Previous reviews" onclick="slideReviews(-1)">‹</button>
+
+      <div class="track-wrap">
+        <div class="track" id="reviewTrack"></div>
+      </div>
+
+      <button class="arrow right" aria-label="Next reviews" onclick="slideReviews(1)">›</button>
+    </div>
+  </div>
+</section>
+  <!-- ADD REVIEW -->
+<section class="section reveal">
+  <div class="container card" id="addReview">
+    <h2>Leave a review</h2>
+    <p class="sub">Tell us what you think about our products.</p>
+
+    <form id="reviewForm" class="review-form">
+      <div class="form-group">
+        <label for="reviewName">Your name</label>
+        <input type="text" id="reviewName" name="name" required />
+      </div>
+
+      <div class="form-group">
+        <label for="reviewTitle">Review title</label>
+        <input type="text" id="reviewTitle" name="title" required />
+      </div>
+
+      <div class="form-group">
+        <label for="reviewText">Your review</label>
+        <textarea id="reviewText" name="text" rows="4" required></textarea>
+      </div>
+
+      <button type="submit" class="btn mag">Submit review</button>
+
+      <p id="reviewMsg" class="sub" style="margin-top:.8rem; display:none;"></p>
+    </form>
+  </div>
+</section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container foot">
+      <div class="footer-logo">
+        <img src="WhatsApp Image 2025-09-12 at 10.03.25 PM.jpeg" alt="Super Healthy logo" loading="lazy" />
+      </div>
+
+      <nav class="foot-links" aria-label="Footer">
+        <a href="/products.html">Products</a>
+        <a href="/who-we-are.html">Who We Are</a>
+        <a href="/locate-us.html">Locate Us</a>
+        <a href="/contact.html">Contact</a>
+      </nav>
+
+      <div>
+        <h3>Connect with us</h3>
+        <p class="sub" style="margin:.25rem 0 1rem">We love to see your creations—tag us!</p>
+        <p class="social-links">
+          <a
+            class="social-link insta"
+            href="https://www.instagram.com/manoune.lb"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="social-icon" aria-hidden="true">
+              <!-- Instagram logo-style icon -->
+              <svg viewBox="0 0 24 24">
+                <defs>
+                  <radialGradient id="igGrad1" cx="50%" cy="50%" r="70%">
+                    <stop offset="0%" stop-color="#fdf497"/>
+                    <stop offset="40%" stop-color="#fd5949"/>
+                    <stop offset="70%" stop-color="#d6249f"/>
+                    <stop offset="100%" stop-color="#285AEB"/>
+                  </radialGradient>
+                </defs>
+                <rect x="2" y="2" width="20" height="20" rx="6" fill="url(#igGrad1)"/>
+                <rect x="6.5" y="6.5" width="11" height="11" rx="3.3" fill="none" stroke="#fff" stroke-width="1.6"/>
+                <circle cx="12" cy="12" r="3.2" fill="none" stroke="#fff" stroke-width="1.6"/>
+                <circle cx="16.3" cy="7.7" r="1.1" fill="#fff"/>
+              </svg>
+            </span>
+          </a>
+          <a
+            class="social-link fb"
+            href="https://www.facebook.com/superhealthyhomemade"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="social-icon" aria-hidden="true">
+              <!-- Facebook logo-style icon -->
+              <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="12" fill="#1877F2"/>
+                <path d="M13.5 8H15V5.7h-1.6C10.9 5.7 10 7.3 10 9.3V11H8v2.3h2v5h2.4v-5H14V11h-1.6V9.3c0-.8.3-1.3 1.1-1.3Z" fill="#fff"/>
+              </svg>
+            </span>
+          </a>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Mobile sticky CTA bar -->
+  <div class="sticky-cta" id="stickyCta" role="region" aria-label="Quick actions">
+    <a class="s-cta-btn" href="/products.html" id="stickyProducts">All Products</a>
+    <a class="s-cta-btn" href="/locate-us.html">Store Locator</a>
+    <button class="close-cta" id="closeSticky" aria-label="Close">×</button>
+  </div>
+
+  <!-- Back-to-Top button -->
+  <button id="toTop" aria-label="Back to top" class="to-top" hidden>↑</button>
+
+  <script>
+    // ===== Respect OS reduced-motion (adds/removes .no-anim) =====
+    const htmlEl = document.documentElement;
+    const rm = matchMedia('(prefers-reduced-motion: reduce)');
+    const setRM = () => htmlEl.classList.toggle('no-anim', rm.matches);
+    setRM(); rm.addEventListener('change', setRM);
+
+    // ===== Scroll progress bar =====
+    const progress = document.getElementById('progress');
+    const onScroll = () => {
+      const h = document.documentElement;
+      const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight);
+      progress.style.width = (scrolled * 100) + '%';
+    };
+    document.addEventListener('scroll', onScroll, {passive:true});
+    onScroll();
+
+    // ===== Floating seeds =====
+    const floaters = document.getElementById('floaters');
+    let seeds = 0, running = true;
+    function makeSeed(){
+      if (!running || htmlEl.classList.contains('no-anim')) return;
+      if (seeds >= 12) return;
+      const s = document.createElement('span');
+      s.className = 'seed';
+      const vw = window.innerWidth;
+      const startX = Math.random() * vw + 'px';
+      const driftX = (Math.random() * 80 - 40) + 'px';
+      const size = 6 + Math.random()*8;
+      s.style.left = startX;
+      s.style.setProperty('--sx', '0px');
+      s.style.setProperty('--dx', driftX);
+      s.style.width = size + 'px';
+      s.style.height = size + 'px';
+      s.style.setProperty('--dur', (10 + Math.random()*8) + 's');
+      floaters.appendChild(s);
+      seeds++;
+      setTimeout(()=> { s.remove(); seeds--; }, 18000);
+    }
+    function spawn(){ if (!document.hidden) makeSeed(); setTimeout(spawn, 900); }
+    document.addEventListener('visibilitychange', ()=> { running = !document.hidden; });
+    spawn();
+
+    // ===== Parallax hero on mouse move =====
+    const heroBox = document.getElementById('heroBox');
+    heroBox.addEventListener('pointermove', (e)=>{
+      if (htmlEl.classList.contains('no-anim')) return;
+      const img = heroBox.querySelector('img');
+      const rect = heroBox.getBoundingClientRect();
+      const x = (e.clientX - rect.left)/rect.width - 0.5;
+      const y = (e.clientY - rect.top)/rect.height - 0.5;
+      img.style.transform = `scale(1.02) translate(${x*-6}px, ${y*-6}px)`;
+    });
+    heroBox.addEventListener('pointerleave', ()=>{
+      const img = heroBox.querySelector('img');
+      img.style.transform = '';
+    });
+
+    // ===== Magnetic buttons =====
+    document.querySelectorAll('.mag').forEach(btn=>{
+      btn.addEventListener('pointermove', e=>{
+        if (htmlEl.classList.contains('no-anim')) return;
+        const r = btn.getBoundingClientRect();
+        const dx = (e.clientX - (r.left + r.width/2)) / (r.width/2);
+        const dy = (e.clientY - (r.top + r.height/2)) / (r.height/2);
+        btn.style.transform = `translate(${dx*4}px, ${dy*4}px)`;
+      });
+      btn.addEventListener('pointerleave', ()=> btn.style.transform = '');
+    });
+
+    // ===== Tilt cards =====
+    const tilts = document.querySelectorAll('.tilt');
+    tilts.forEach(card=>{
+      card.addEventListener('pointermove', e=>{
+        if (htmlEl.classList.contains('no-anim')) return;
+        const r = card.getBoundingClientRect();
+        const x = (e.clientX - r.left)/r.width - 0.5;
+        const y = (e.clientY - r.top)/r.height - 0.5;
+        card.style.transform = `perspective(900px) rotateX(${y*-6}deg) rotateY(${x*6}deg) translateY(-4px)`;
+      });
+      card.addEventListener('pointerleave', ()=> card.style.transform = '');
+    });
+
+    // ===== Reveal on scroll =====
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el=> io.observe(el));
+
+    // ===== Review slider: 3 per line, wrap last -> first =====
+    const track = document.getElementById('reviewTrack');
+    const reviewItems = Array.from(track.children);
+    const trackWrap = document.querySelector('.track-wrap');
+    let currentIndex = 0;
+
+    function slideCardWidth(){
+      const first = reviewItems[0];
+      const rect = first.getBoundingClientRect();
+      const styles = getComputedStyle(first);
+      const margin = parseFloat(styles.marginLeft) + parseFloat(styles.marginRight);
+      return rect.width + margin;
+    }
+
+    function visibleCount(){
+      const wrapRect = trackWrap.getBoundingClientRect();
+      const w = slideCardWidth();
+      return Math.max(1, Math.floor(wrapRect.width / w));
+    }
+
+    function maxIndex(){
+      const last = reviewItems.length - 1;
+      const vis = visibleCount();
+      const max = last - (vis - 1);
+      return Math.max(0, max);
+    }
+
+    function applyTransform(){
+      const offset = slideCardWidth() * currentIndex;
+      track.style.transform = `translateX(-${offset}px)`;
+    }
+
+    function slideReviews(dir){
+      const max = maxIndex();
+      currentIndex += dir;
+      if (currentIndex < 0) currentIndex = max;
+      if (currentIndex > max) currentIndex = 0;
+      track.style.transition = 'transform .5s cubic-bezier(.2,.75,.2,1)';
+      applyTransform();
+    }
+
+    window.addEventListener('resize', () => {
+      const max = maxIndex();
+      if (currentIndex > max) currentIndex = max;
+      track.style.transition = 'none';
+      applyTransform();
+      void track.offsetWidth; // force reflow
+      track.style.transition = 'transform .5s cubic-bezier(.2,.75,.2,1)';
+    });
+
+    // autoplay for reviews
+    let auto = null;
+    function startAuto(){
+      if (!document.documentElement.classList.contains('no-anim') && !auto){
+        auto = setInterval(() => slideReviews(1), 3500);
+      }
+    }
+    function stopAuto(){
+      if (auto){
+        clearInterval(auto);
+        auto = null;
+      }
+    }
+    startAuto();
+    const sliderEl = document.querySelector('.slider');
+    sliderEl.addEventListener('mouseenter', stopAuto);
+    sliderEl.addEventListener('mouseleave', startAuto);
+
+    // ===== Sticky CTA =====
+    const sticky = document.getElementById('stickyCta');
+    const closeSticky = document.getElementById('closeSticky');
+    const stickyKey = 'sticky-cta-closed';
+    function applyStickyPref(){
+      const closed = localStorage.getItem(stickyKey) === '1';
+      sticky.style.display = closed ? 'none' : '';
+    }
+    applyStickyPref();
+    closeSticky.addEventListener('click', ()=>{
+      localStorage.setItem(stickyKey, '1');
+      applyStickyPref();
+    });
+
+    // ===== Back-to-Top =====
+    const toTop = document.getElementById('toTop');
+    const showTop = () => {
+      if (window.scrollY > 600) {
+        toTop.hidden = false;
+        toTop.classList.add('show');
+      } else {
+        toTop.classList.remove('show');
+        toTop.hidden = true;
+      }
+    };
+    window.addEventListener('scroll', showTop, { passive: true });
+    showTop();
+    toTop.addEventListener('click', () => {
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReduced) window.scrollTo(0, 0);
+      else window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // ===== Keyboard arrows for reviews =====
+    document.addEventListener('keydown', (e)=>{
+      if(e.key==='ArrowLeft') slideReviews(-1);
+      if(e.key==='ArrowRight') slideReviews(1);
+    });
+
+    // ===== MOBILE NAV TOGGLE (phones only) =====
+    const navToggle = document.getElementById('navToggle');
+    const primaryNav = document.getElementById('primaryNav');
+
+    if (navToggle && primaryNav){
+      navToggle.addEventListener('click', () => {
+        const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+        navToggle.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+        primaryNav.classList.toggle('open', !expanded);
+      });
+
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 720) {
+          navToggle.setAttribute('aria-expanded', 'false');
+          primaryNav.classList.remove('open');
+        }
+      });
+
+      primaryNav.addEventListener('click', (e) => {
+        if (e.target.tagName === 'A' && window.innerWidth <= 720) {
+          navToggle.setAttribute('aria-expanded', 'false');
+          primaryNav.classList.remove('open');
+        }
+      });
+    }
+
+    // ===== FOLLOW US IMAGE SLIDER (phones only arrows) =====
+    const followTrack = document.getElementById('followTrack');
+    const followImages = followTrack ? Array.from(followTrack.querySelectorAll('img')) : [];
+    let followIndex = 0;
+
+    function updateFollow(){
+      if (!followTrack) return;
+      followTrack.style.transform = `translateX(-${followIndex * 100}%)`;
+    }
+
+    function slideFollow(dir){
+      if (!followTrack || followImages.length === 0) return;
+      followIndex = (followIndex + dir + followImages.length) % followImages.length;
+      followTrack.style.transition = 'transform .45s cubic-bezier(.2,.75,.2,1)';
+      updateFollow();
+    }
+
+    window.addEventListener('resize', () => {
+      if (!followTrack) return;
+      followTrack.style.transition = 'none';
+      updateFollow();
+    });
+
+    updateFollow();
+
+    // =========================================================
+    // ✅ FEATURED PRODUCTS (you choose which 3)
+    //   Order = left, middle, right
+    // =========================================================
+    const FEATURED = [
+      "sesame-bar",
+      "granola",
+      "seeds-paleo-bar"
+    ];
+
+    const latestGrid = document.getElementById('latestGrid');
+
+    function normalizeImagePath(src){
+      if (!src) return "";
+      let s = String(src).trim();
+      if (s.startsWith("public/")) s = s.slice("public/".length); // old: "public/images/..."
+      if (s.startsWith("images/")) s = "/" + s;                   // "images/..." -> "/images/..."
+      if (!s.startsWith("/")) s = "/" + s;                         // safety
+      return s;
+    }
+
+    function productLink(p){
+      if (p && p.slug) return `/product.html?p=${encodeURIComponent(p.slug)}`;
+      if (p && p.id != null) return `/product.html?id=${encodeURIComponent(p.id)}`;
+      return "/products.html";
+    }
+
+    function cardHTML(p){
+      const img = normalizeImagePath(p.image);
+      return `
+        <article class="product tilt" role="listitem">
+          <a href="${productLink(p)}" aria-label="View ${p.name || "product"}">
+            <img loading="lazy" src="${img}" alt="${p.name || "Product"}"
+                 onerror="this.style.opacity='0.35';" />
+          </a>
+        </article>
+      `;
+    }
+
+    async function loadFeatured(){
+      try{
+        const res = await fetch("/api/products", { cache:"no-store" });
+        if (!res.ok) throw new Error("Failed to load products");
+        const data = await res.json();
+        const all = Array.isArray(data.products) ? data.products : [];
+
+        const chosen = FEATURED
+          .map(slug => all.find(p => String(p.slug) === String(slug)))
+          .filter(Boolean);
+
+        if (!chosen.length){
+          latestGrid.innerHTML = `<p class="sub">Featured products not found. Check the slugs.</p>`;
+          return;
+        }
+
+        latestGrid.innerHTML = chosen.map(cardHTML).join("");
+
+        // Re-enable tilt on the NEW cards we just added
+        latestGrid.querySelectorAll('.tilt').forEach(card=>{
+          card.addEventListener('pointermove', e=>{
+            if (htmlEl.classList.contains('no-anim')) return;
+            const r = card.getBoundingClientRect();
+            const x = (e.clientX - r.left)/r.width - 0.5;
+            const y = (e.clientY - r.top)/r.height - 0.5;
+            card.style.transform = `perspective(900px) rotateX(${y*-6}deg) rotateY(${x*6}deg) translateY(-4px)`;
+          });
+          card.addEventListener('pointerleave', ()=> card.style.transform = '');
+        });
+
+      }catch(err){
+        console.error(err);
+        latestGrid.innerHTML = `<p class="sub">Could not load featured products.</p>`;
+      }
+    }
+
+    loadFeatured();
+  </script>
+
+  <script>
+    // Exact two-copy method = perfect marquee loop
+    (function(){
+      const track = document.querySelector('.marquee-inner');
+      if (!track || document.documentElement.classList.contains('no-anim')) return;
+      const unit = track.innerHTML;
+      track.innerHTML = unit + unit;
+    })();
+    // ===== LOAD REVIEWS =====
+async function loadReviews(){
+  try{
+    const res = await fetch("/api/reviews", { cache:"no-store" });
+    const reviews = await res.json();
+
+    reviews.forEach(r=>{
+      const card = document.createElement("article");
+      card.className = "card-r";
+      card.innerHTML = `
+        <h3>${r.title}</h3>
+        <p>${r.text}</p>
+        <span class="author">${r.name}</span>
+      `;
+      reviewTrack.appendChild(card);
+      reviewItems.push(card);
+    });
+
+    applyTransform();
+  }catch(e){}
+}
+loadReviews();
+
+// ===== SUBMIT REVIEW =====
+reviewForm.addEventListener("submit", async (e)=>{
+  e.preventDefault();
+
+  const payload = {
+    name: reviewName.value.trim(),
+    title: reviewTitle.value.trim(),
+    text: reviewText.value.trim()
+  };
+
+  reviewMsg.style.display = "block";
+  reviewMsg.textContent = "Submitting...";
+
+  try{
+    const res = await fetch("/api/reviews", {
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    const r = await res.json();
+
+    const card = document.createElement("article");
+    card.className = "card-r";
+    card.innerHTML = `
+      <h3>${r.title}</h3>
+      <p>${r.text}</p>
+      <span class="author">${r.name}</span>
+    `;
+
+    reviewTrack.appendChild(card);
+    reviewItems.push(card);
+
+    currentIndex = maxIndex();
+    applyTransform();
+
+    reviewMsg.textContent = "Review added!";
+    reviewForm.reset();
+  }catch{
+    reviewMsg.textContent = "Error. Try again.";
+  }
+});
+  </script>
+</body>
+</html>

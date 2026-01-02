@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Who We Are – Super Healthy</title>
+  <meta name="description" content="Learn about Super Healthy: our mission, philosophy, and founder story." />
+  <style>
+    :root{
+      --primary:#14a3a0;
+      --primary-700:#0f7f7c;
+      --sand:#f7ead2;
+      --ink:#1f2a24;
+      --muted:#6c726f;
+      --accent:#7a4a1f;
+      --accent-700:#8f5a2a;
+      --card:#ffffff;
+    }
+
+    *{ box-sizing:border-box }
+    html{ scroll-behavior:smooth }
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";
+      color:var(--ink); line-height:1.65;
+      background:
+        radial-gradient(900px 420px at 15% -10%, #e9fbfa 0%, transparent 60%),
+        radial-gradient(700px 360px at 90% 0%, #fff6e8 0%, transparent 60%),
+        linear-gradient(180deg, #fffdfa 0%, #fff7e7 100%);
+      background-attachment: fixed;
+      overflow-x:hidden;
+    }
+
+    /* Progress bar */
+    .progress{
+      position:fixed; top:0; left:0; height:4px; width:0%;
+      background:linear-gradient(90deg,#14a3a0,#0f7f7c);
+      z-index:9999; box-shadow:0 0 12px #14a3a0aa;
+      transform-origin:left center;
+    }
+
+    /* Floating seeds (subtle bg) */
+    .floaters{ position:fixed; inset:0; pointer-events:none; z-index:0; }
+    .seed{
+      position:absolute; width:10px; height:10px; border-radius:50%;
+      background:#14a3a022; filter:blur(.2px);
+      animation: drift var(--dur,12s) linear forwards;
+    }
+    @keyframes drift{
+      from{ transform:translate3d(var(--sx,0), 110vh, 0) scale(.9); opacity:0 }
+      10%{opacity:.6}
+      to{ transform:translate3d(calc(var(--sx,0) + var(--dx,0)), -10vh, 0) scale(1.1); opacity:0 }
+    }
+
+    /* Container */
+    .container{ width:min(1080px,92vw); margin-inline:auto; position:relative; z-index:1; }
+
+    /* HEADER */
+    header{
+      position:sticky; top:0; z-index:50;
+      background:linear-gradient(180deg, #ffffffee 0%, #ffffffbf 100%);
+      backdrop-filter: saturate(140%) blur(8px);
+      border-bottom:1px solid #efe4cc;
+    }
+    .nav{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:.75rem .75rem;
+      gap:.6rem;
+    }
+    .logo a{ text-decoration:none; color:var(--primary); display:inline-block }
+    .logo h1{
+      margin:0; font-size:clamp(1.05rem,2.2vw,1.5rem);
+      letter-spacing:.2px; font-weight:900; line-height:1;
+    }
+
+    /* mobile menu button (shown only on phones via media query) */
+    .nav-toggle{
+      display:none;
+      border:1px solid #cbe9e7;
+      background:#ffffff;
+      border-radius:999px;
+      padding:.45rem .7rem;
+      font-size:.9rem;
+      line-height:1;
+      cursor:pointer;
+      align-items:center;
+      gap:.35rem;
+      white-space:nowrap;
+    }
+    .nav-toggle-text{
+      font-weight:800;
+      color:#194746;
+    }
+    .nav-toggle-icon{
+      position:relative;
+      width:18px;
+      height:14px;
+    }
+    .nav-toggle-icon::before,
+    .nav-toggle-icon::after,
+    .nav-toggle-icon span{
+      content:"";
+      position:absolute;
+      left:0; right:0;
+      height:2px;
+      border-radius:999px;
+      background:#194746;
+      transition:transform .2s ease, opacity .2s ease, top .2s ease, bottom .2s ease;
+    }
+    .nav-toggle-icon::before{ top:0; }
+    .nav-toggle-icon::after{ bottom:0; }
+    .nav-toggle-icon span{ top:50%; transform:translateY(-50%); }
+
+    .nav-toggle[aria-expanded="true"] .nav-toggle-icon::before{
+      top:50%;
+      transform:translateY(-50%) rotate(45deg);
+    }
+    .nav-toggle[aria-expanded="true"] .nav-toggle-icon::after{
+      bottom:50%;
+      transform:translateY(50%) rotate(-45deg);
+    }
+    .nav-toggle[aria-expanded="true"] .nav-toggle-icon span{
+      opacity:0;
+    }
+
+    nav{ display:flex; gap:.25rem; flex-wrap:wrap; }
+    nav a{
+      --pad:.6rem;
+      position:relative;
+      text-decoration:none; color:#194746; font-weight:800;
+      padding:.4rem .7rem;
+      border-radius:.8rem;
+      transition: transform .2s ease, background .25s ease, color .25s ease;
+    }
+    nav a::after{
+      content:"";
+      position:absolute; left:var(--pad); right:var(--pad); bottom:.25rem; height:2px;
+      background:linear-gradient(90deg, transparent, var(--primary), transparent);
+      transform:scaleX(0); transform-origin:center;
+      transition:transform .25s ease;
+    }
+    nav a:hover{ background:#e9fcfb; color:#0e5a58; transform:translateY(-1px) }
+    nav a:hover::after{ transform:scaleX(1) }
+    nav a[aria-current="page"]{ background:#edfffd; color:#0e5a58 }
+
+    /* Sections / cards */
+    main{ padding: clamp(1rem, 3vw, 1.6rem) 0 2.2rem; }
+    .section{ padding: clamp(1rem, 3.6vw, 1.8rem) 0 }
+    .card{
+      background:var(--card);
+      border:1px solid #efe3ca;
+      border-radius:18px;
+      padding:clamp(1rem, 3.5vw, 1.6rem);
+      box-shadow:0 10px 28px rgba(0,0,0,.07);
+    }
+    h1,h2{ margin:.1rem 0 .6rem }
+    h1{  margin:0; font-size:clamp(1.05rem,2.2vw,1.5rem); letter-spacing:.2px; font-weight:900 }
+    h2{ font-size:clamp(1.2rem,2.4vw,1.6rem) }
+    .sub{ color:var(--muted) }
+
+    /* Impact */
+    .impact{
+      display:grid; gap:1.2rem; align-items:center;
+      grid-template-columns:1fr;
+    }
+    @media (min-width:900px){ .impact{ grid-template-columns:1.1fr 1fr } }
+    .impact img{
+      width:100%; height:auto; border-radius:14px; display:block; object-fit:cover;
+      border:1px solid #efe3ca; background:#fff;
+    }
+    /* bigger quote-style headline */
+    .impact h1{
+      font-size:clamp(1.6rem,3.2vw,2.3rem);
+      line-height:1.25;
+    }
+
+    /* Mission */
+    .mission{
+      display:grid; gap:1.2rem; align-items:center;
+      grid-template-columns:1fr;
+      background:linear-gradient(180deg,#edfffd 0%, #ffffff 100%);
+      border:1px solid #cbe9e7;
+      border-radius:18px;
+    }
+    @media (min-width:900px){ .mission{ grid-template-columns: 1fr 1.2fr } }
+    .mission .img-wrap{ text-align:center }
+    .mission .img-wrap img{ width:min(440px,90%); height:auto; object-fit:contain }
+    .mission p{ font-size:1.05rem; }
+
+    /* Food philosophy — desktop base */
+    .philosophy{ text-align:center }
+    .philosophy h2{
+      font-family:Georgia, 'Times New Roman', serif;
+      color:#69310f;
+      margin-top:.25rem;
+    }
+
+    .slider-container{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:1.2rem; /* more space between arrows & image */
+      margin-top:.75rem;
+    }
+    .philosophy-track{
+      display:flex;
+      gap:1.6rem;
+      align-items:center;
+      justify-content:center;
+      perspective:1000px;
+      flex-wrap:nowrap;
+    }
+    .philosophy-track img{
+      width:140px; height:140px; object-fit:cover;
+      transform:rotate(45deg); border-radius:10px; transition:transform .6s ease, opacity .3s ease;
+      opacity:.4;
+    }
+    .diamond{
+      width:150px; height:150px; filter:blur(1px);
+      transform:rotate(45deg); transform-style:preserve-3d; transition:all .6s ease;
+    }
+    .diamond.active{
+      width:150px; height:150px; opacity:1; filter:none;
+      transform:rotate(45deg) rotateY(360deg); z-index:1;
+    }
+
+    /* new arrow style – white + teal */
+    .arrow{
+      background:#ffffff;
+      border:1px solid #0f8f8c;
+      border-radius:999px;
+      width:44px;
+      height:44px;
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      user-select:none;
+      color:#0f7f7c;
+      font-size:1.6rem;
+      line-height:1;
+      box-shadow:0 8px 18px rgba(0,0,0,.12);
+      padding:0;
+    }
+    .arrow:hover{
+      background:#e9fcfb;
+      box-shadow:0 10px 22px rgba(0,0,0,.18);
+    }
+    .philosophy-caption{ margin-top:1rem; color:#69310f; min-height:40px }
+    #philosophyPhrase{ font-size:clamp(1.2rem,2.6vw,1.8rem); font-weight:800; color:#6a3a1e; margin-top:1rem }
+
+    @media (max-width:768px){
+      .arrow{
+        width:40px;
+        height:40px;
+        font-size:1.4rem;
+      }
+      .philosophy-track{
+        gap:1.1rem;
+      }
+    }
+
+    /* Founder strip */
+    .founder{
+      display:grid; grid-template-columns:1fr; gap:0;
+      background:linear-gradient(180deg,#15b9b6 0%, #0f8f8c 100%); color:#fff;
+      border-radius:18px; border:1px solid #0f8f8c;
+    }
+    @media (min-width:980px){ .founder{ grid-template-columns:1fr 1.1fr } }
+    .founder img{
+      width:100%; height:100%; object-fit:cover; border-radius:18px 18px 0 0;
+    }
+    @media (min-width:980px){ .founder img{ border-radius:18px 0 0 18px } }
+    .founder .copy{ padding:clamp(1rem,3vw,2rem) }
+    .founder h2{ color:#fff; margin-top:0 }
+    .founder p{ font-size:1.05rem; line-height:1.8; font-weight:500 }
+
+    /* Quote band */
+    .quote{
+      text-align:center; font-family:Georgia, 'Times New Roman', serif; color:#4a2d13;
+      background:#fff; border:1px solid #efe3ca; border-radius:18px; 
+      padding: clamp(1.2rem,4vw,2rem);
+      background-image:url('OIP (1).jpg'); background-size:cover; background-position:center;
+      background-blend-mode:soft-light;
+    }
+    .quote .q{
+      font-size:clamp(1.6rem,3.6vw,2.4rem);
+      font-weight:700;
+      margin:0;
+      letter-spacing:.03em;
+    }
+
+    /* reveal-on-scroll */
+    .reveal{ opacity:0; transform: translateY(16px); }
+    .reveal.in{ opacity:1; transform:none; transition: opacity .6s ease, transform .6s ease; }
+    .reveal.in > *{
+      --d:0ms; opacity:0; transform: translateY(12px);
+      animation: up .5s cubic-bezier(.2,.75,.2,1) var(--d) forwards;
+    }
+    .reveal.in > *:nth-child(1){ --d:60ms }
+    .reveal.in > *:nth-child(2){ --d:120ms }
+    .reveal.in > *:nth-child(3){ --d:180ms }
+    .reveal.in > *:nth-child(4){ --d:240ms }
+    .reveal.in > *:nth-child(5){ --d:300ms }
+    @keyframes up{ to{ opacity:1; transform:none } }
+
+    /* Back-to-Top */
+    .to-top{
+      position:fixed; right:14px; bottom:20px; z-index:9996;
+      width:44px; height:44px; border-radius:999px; border:0; cursor:pointer;
+      display:grid; place-items:center;
+      background:#14a3a0; color:#fff;
+      box-shadow:0 10px 24px rgba(0,0,0,.18);
+      opacity:0; transform: translateY(10px);
+      transition: opacity .25s ease, transform .25s ease, box-shadow .2s ease;
+    }
+    .to-top:hover{ box-shadow:0 14px 34px rgba(0,0,0,.22) }
+    .to-top.show{ opacity:1; transform:none }
+
+    /* Sticky CTA (mobile) */
+    .sticky-cta{
+      position:fixed; left:0; right:0; bottom:0; z-index:9997;
+      background:#0f7f7c; color:#fff; border-top:2px solid #0e6b69;
+      display:flex; align-items:center; gap:.6rem; padding:.6rem .75rem;
+      box-shadow:0 -10px 24px rgba(0,0,0,.18);
+    }
+    .sticky-cta .s-cta-btn{
+      flex:1; text-align:center; text-decoration:none; color:#0f7f7c; background:#fff;
+      padding:.7rem .9rem; border-radius:12px; font-weight:900; border:1px solid #cbe9e7;
+      box-shadow:0 8px 18px rgba(255,255,255,.18) inset;
+    }
+    .sticky-cta .close-cta{
+      background:transparent; border:1px solid #cbe9e7; color:#fff; border-radius:999px;
+      width:36px; height:36px; display:grid; place-items:center; font-size:1.1rem;
+    }
+    @media (min-width: 820px){ .sticky-cta{ display:none; } }
+
+    /* Footer */
+    footer{
+      margin-top: clamp(1rem,6vw,2rem); padding:1.6rem 0 2.4rem;
+      border-top:1px solid #eadfc2;
+      background:linear-gradient(180deg, #fff9ec 0%, #fff4db 100%);
+    }
+    .foot{ display:grid; gap:1rem; grid-template-columns:1fr }
+    @media (min-width:760px){ .foot{ grid-template-columns:auto 1fr auto; align-items:start } }
+    .footer-logo img{
+      width:100%; max-width:240px; height:auto; object-fit:contain; display:block;
+      border-radius:12px; box-shadow:0 10px 28px rgba(0,0,0,.07);
+      transition: transform .35s ease;
+    }
+    .footer-logo img:hover{ transform: translateY(-3px) }
+    .foot-links{ display:grid; gap:.45rem }
+    .foot-links a{ text-decoration:none; color:#4b3a2e; font-weight:900; transition: color .2s ease, transform .2s ease }
+    .foot-links a:hover{ color:#8f5a2a; transform: translateX(2px) }
+
+    /* social icons */
+    .social-links{
+      display:flex;
+      flex-wrap:wrap;
+      gap:.9rem;
+      align-items:center;
+    }
+    .social-link{
+      display:inline-flex;
+      align-items:center;
+      gap:.55rem;
+      text-decoration:none;
+      color:#4b3a2e;
+      font-weight:900;
+      transition: color .2s ease, transform .2s ease;
+    }
+    .social-link:hover{
+      color:var(--accent-700);
+      transform:translateY(-1px);
+    }
+    .social-icon{
+      width:42px;
+      height:42px;
+      border-radius:50%;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      background:#fff;
+    }
+    .social-icon svg{
+      width:80%;
+      height:80%;
+      display:block;
+    }
+    .social-link.insta .social-icon{
+      background: radial-gradient(circle at 30% 30%, #fdf497 0%, #fd5949 40%, #d6249f 70%, #285AEB 100%);
+    }
+    .social-link.fb .social-icon{
+      background:#1877f2;
+    }
+
+    /* Reduced motion support */
+    .no-anim *, .no-anim *::before, .no-anim *::after{
+      animation: none !important;
+      transition: none !important;
+      scroll-behavior: auto !important;
+    }
+    @media (prefers-reduced-motion: reduce){
+      *{ animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important }
+      .progress{ display:none }
+    }
+
+    /* ===== Mobile nav + mobile food philosophy ONLY (desktop unchanged) ===== */
+    @media (max-width:720px){
+      .nav{
+        align-items:center;
+        justify-content:space-between;
+        padding:.6rem .75rem;
+      }
+
+      .nav-toggle{
+        display:flex;
+      }
+
+      header nav{
+        position:absolute;
+        inset-inline:0;
+        top:100%;
+        margin-inline:auto;
+        padding:.6rem .9rem .9rem;
+        background:#ffffffee;
+        border-bottom:1px solid #efe4cc;
+        backdrop-filter:saturate(140%) blur(8px);
+        display:none;
+        flex-wrap:wrap;
+        gap:.4rem;
+        z-index:40;
+      }
+      header nav.open{
+        display:flex;
+      }
+      header nav a{
+        flex:1 1 100%;
+        text-align:left;
+      }
+
+      /* Food philosophy mobile: single centered diamond with flip */
+      .philosophy .slider-container{
+        gap:1rem;
+      }
+
+      .philosophy-track{
+        position:relative;
+        width:140px;
+        height:140px;
+      }
+
+      .philosophy-track img{
+        position:absolute;
+        top:50%;
+        left:50%;
+        width:120px;
+        height:120px;
+        margin:0;
+        transform:translate(-50%,-50%) rotate(45deg);
+        opacity:0;
+      }
+
+      .philosophy-track img.active{
+        opacity:1;
+        transform:translate(-50%,-50%) rotate(45deg) rotateY(360deg);
+      }
+
+      .diamond,
+      .diamond.active{
+        width:120px;
+        height:120px;
+      }
+
+      .philosophy-caption{
+        margin-top:.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Progress -->
+  <div class="progress" id="progress"></div>
+
+  <!-- Floating seeds -->
+  <div class="floaters" id="floaters" aria-hidden="true"></div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="container nav">
+      <div class="logo">
+        <a href="/supper healthy.html"><h1>Super Healthy</h1></a>
+      </div>
+
+      <!-- menu button (phones only) -->
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+        <span class="nav-toggle-icon" aria-hidden="true">
+          <span></span>
+        </span>
+        <span class="nav-toggle-text">Menu</span>
+      </button>
+
+      <nav aria-label="Primary" id="primaryNav">
+        <a href="/products.html">Products</a>
+        <a href="/who-we-are.html" aria-current="page">Who We Are</a>
+        <a href="/locate-us.html">Locate Us</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Impact -->
+    <section class="section reveal">
+      <div class="container card impact">
+        <div>
+          <h1>Baked with love,<br>served with care.</h1>
+          <p class="sub">Wholesome snacks made from simple, powerful ingredients.</p>
+        </div>
+        <div>
+          <img src="pic-4.jpeg" alt="Family cooking" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Mission -->
+    <section class="section reveal">
+      <div class="container mission card">
+        <div class="img-wrap">
+          <img src="ChatGPT Image Sep 16, 2025, 08_41_16 PM.png" alt="Illustration representing our mission" />
+        </div>
+        <div>
+          <h2>Our Mission</h2>
+          <p>
+            At the heart of our business is a simple belief: that real food made from real ingredients can
+            nourish both body and soul. Our mission is to craft wholesome, delicious crackers using nature’s
+            most powerful ingredients—seeds, grains, and spices—without any artificial additives or preservatives.
+          </p>
+          <p>
+            We’re committed to promoting wellness through food that’s crunchy, clean, and full of goodness.
+            Whether you're fueling your day or sharing a snack with loved ones, we want every bite to reflect
+            our passion for healthy living, honesty, and flavor.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Food philosophy -->
+<section class="section reveal">
+  <div class="container card philosophy">
+    <h2>Our food philosophy</h2>
+
+    <div class="slider-container">
+      <button class="arrow left" type="button" onclick="slidePhilosophy(-1)">&#9664;</button>
+
+      <div class="philosophy-track" id="philosophyTrack">
+        <img src="/images/products/product-energy-brittle.jpeg" class="diamond active" alt="Wholesome ingredients" />
+        <img src="/images/products/product-black-rice-brittle.jpeg" class="diamond" alt="Natural sweetness" />
+        <img src="/images/products/product-ningella-brittle.jpeg" class="diamond" alt="Balanced nutrition" />
+        <img src="/images/products/product-pumkin-brittle.jpeg" class="diamond" alt="Small-batch roasting" />
+      </div>
+
+      <button class="arrow right" type="button" onclick="slidePhilosophy(1)">&#9654;</button>
+    </div>
+
+    <p class="philosophy-caption" id="philosophyPhrase">Wholesome mornings start here.</p>
+  </div>
+</section>
+    <!-- Founder -->
+    <section class="section reveal">
+      <div class="container founder">
+        <img src="Screenshot 2025-09-16 215547.png" alt="Founder holding product" />
+        <div class="copy">
+          <h2>Meet our Founder</h2>
+          <p>
+            Hi, I'm Nisrine Nader, the heart behind Super Healthy. My journey began with a simple desire
+            to create snacks that were not only delicious but also genuinely good for you. As a nutrition
+            enthusiast and a foodie, I was frustrated by the lack of wholesome options available. This led
+            me to experiment in my kitchen, blending seeds, grains, and spices to craft crackers that are
+            as nutritious as they are tasty.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quote -->
+    <section class="section reveal">
+      <div class="container quote">
+        <p class="q">more than just crackers.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container foot">
+      <div class="footer-logo">
+        <img src="WhatsApp Image 2025-09-12 at 10.03.25 PM.jpeg" alt="Super Healthy logo" loading="lazy" />
+      </div>
+
+      <nav class="foot-links" aria-label="Footer">
+        <a href="/products.html">Products</a>
+        <a href="/who-we-are.html">Who We Are</a>
+        <a href="/locate-us.html">Locate Us</a>
+        <a href="/contact.html">Contact</a>
+      </nav>
+
+      <div>
+        <h3>Connect with us</h3>
+        <p class="sub" style="margin:.25rem 0 1rem">We love to see your creations—tag us!</p>
+        <p class="social-links">
+          <a
+            class="social-link insta"
+            href="https://www.instagram.com/manoune.lb"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="social-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <defs>
+                  <radialGradient id="igGrad1" cx="50%" cy="50%" r="70%">
+                    <stop offset="0%" stop-color="#fdf497"/>
+                    <stop offset="40%" stop-color="#fd5949"/>
+                    <stop offset="70%" stop-color="#d6249f"/>
+                    <stop offset="100%" stop-color="#285AEB"/>
+                  </radialGradient>
+                </defs>
+                <rect x="2" y="2" width="20" height="20" rx="6" fill="url(#igGrad1)"/>
+                <rect x="6.5" y="6.5" width="11" height="11" rx="3.3" fill="none" stroke="#fff" stroke-width="1.6"/>
+                <circle cx="12" cy="12" r="3.2" fill="none" stroke="#fff" stroke-width="1.6"/>
+                <circle cx="16.3" cy="7.7" r="1.1" fill="#fff"/>
+              </svg>
+            </span>
+          </a>
+          <a
+            class="social-link fb"
+            href="https://www.facebook.com/superhealthyhomemade"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="social-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="12" fill="#1877F2"/>
+                <path d="M13.5 8H15V5.7h-1.6C10.9 5.7 10 7.3 10 9.3V11H8v2.3h2v5h2.4v-5H14V11h-1.6V9.3c0-.8.3-1.3 1.1-1.3Z" fill="#fff"/>
+              </svg>
+            </span>
+          </a>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Mobile sticky CTA bar -->
+  <div class="sticky-cta" id="stickyCta" role="region" aria-label="Quick actions">
+    <a class="s-cta-btn" href="/products.html" id="stickyProducts">All Products</a>
+    <a class="s-cta-btn" href="/locate-us.html">Store Locator</a>
+    <button class="close-cta" id="closeSticky" aria-label="Close">×</button>
+  </div>
+
+  <!-- Back-to-Top -->
+  <button id="toTop" aria-label="Back to top" class="to-top" hidden>↑</button>
+
+  <script>
+    // Respect reduced-motion
+    const htmlEl = document.documentElement;
+    const rm = matchMedia('(prefers-reduced-motion: reduce)');
+    const setRM = () => htmlEl.classList.toggle('no-anim', rm.matches);
+    setRM(); rm.addEventListener('change', setRM);
+
+    // Progress bar
+    const progress = document.getElementById('progress');
+    const onScroll = () => {
+      const h = document.documentElement;
+      const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight);
+      progress.style.width = (scrolled * 100) + '%';
+    };
+    document.addEventListener('scroll', onScroll, {passive:true});
+    onScroll();
+
+    // Floating seeds
+    const floaters = document.getElementById('floaters');
+    let seeds = 0, running = true;
+    function makeSeed(){
+      if (!running || htmlEl.classList.contains('no-anim')) return;
+      if (seeds >= 12) return;
+      const s = document.createElement('span');
+      s.className = 'seed';
+      const vw = window.innerWidth;
+      const startX = Math.random() * vw + 'px';
+      const driftX = (Math.random() * 80 - 40) + 'px';
+      const size = 6 + Math.random()*8;
+      s.style.left = startX;
+      s.style.setProperty('--sx', '0px');
+      s.style.setProperty('--dx', driftX);
+      s.style.width = size + 'px';
+      s.style.height = size + 'px';
+      s.style.setProperty('--dur', (10 + Math.random()*8) + 's');
+      floaters.appendChild(s);
+      seeds++;
+      setTimeout(()=> { s.remove(); seeds--; }, 18000);
+    }
+    function spawn(){ if (!document.hidden) makeSeed(); setTimeout(spawn, 900); }
+    document.addEventListener('visibilitychange', ()=> { running = !document.hidden; });
+    spawn();
+
+    // Reveal on scroll
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el=> io.observe(el));
+
+    // Sticky CTA memory
+    const sticky = document.getElementById('stickyCta');
+    const closeSticky = document.getElementById('closeSticky');
+    const stickyKey = 'sticky-cta-closed';
+    function applyStickyPref(){
+      const closed = localStorage.getItem(stickyKey) === '1';
+      sticky.style.display = closed ? 'none' : '';
+    }
+    applyStickyPref();
+    closeSticky.addEventListener('click', ()=>{ localStorage.setItem(stickyKey, '1'); applyStickyPref(); });
+
+    // Back-to-Top
+    const toTop = document.getElementById('toTop');
+    const showTop = () => {
+      if (window.scrollY > 600) {
+        toTop.hidden = false;
+        toTop.classList.add('show');
+      } else {
+        toTop.classList.remove('show');
+        toTop.hidden = true;
+      }
+    };
+    window.addEventListener('scroll', showTop, { passive: true });
+    showTop();
+    toTop.addEventListener('click', () => {
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReduced) window.scrollTo(0, 0);
+      else window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Food philosophy slider (same animation)
+    let currentSlide = 0;
+    const slides = document.querySelectorAll(".philosophy-track img");
+    const phrases = [
+      "Wholesome mornings start here.",
+      "Nourishment made simple.",
+      "Made with love and better choices.",
+      "Crunch into health and happiness."
+    ];
+    const phraseElement = document.getElementById("philosophyPhrase");
+    function updateCarousel() {
+      slides.forEach((img, index) => img.classList.toggle("active", index === currentSlide));
+      phraseElement.textContent = phrases[currentSlide];
+    }
+    function slidePhilosophy(direction) {
+      currentSlide += direction;
+      if (currentSlide < 0) currentSlide = slides.length - 1;
+      if (currentSlide >= slides.length) currentSlide = 0;
+      updateCarousel();
+    }
+    updateCarousel();
+
+    // Mobile nav toggle
+    const navToggle = document.getElementById('navToggle');
+    const primaryNav = document.getElementById('primaryNav');
+
+    if (navToggle && primaryNav){
+      navToggle.addEventListener('click', () => {
+        const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+        navToggle.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+        primaryNav.classList.toggle('open', !expanded);
+      });
+
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 720) {
+          navToggle.setAttribute('aria-expanded', 'false');
+          primaryNav.classList.remove('open');
+        }
+      });
+
+      primaryNav.addEventListener('click', (e) => {
+        if (e.target.tagName === 'A' && window.innerWidth <= 720) {
+          navToggle.setAttribute('aria-expanded', 'false');
+          primaryNav.classList.remove('open');
+        }
+      });
+    }
+  </script>
+</body>
+</html>
