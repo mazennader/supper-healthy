@@ -7,6 +7,7 @@ import bcrypt from "bcrypt";
 import rateLimit from "express-rate-limit";
 
 const app = express();
+app.set("trust proxy", 1);
 const PORT = process.env.PORT || 3000;
 const ROOT = process.cwd();
 
@@ -19,9 +20,11 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    proxy: true,
     cookie: {
       httpOnly: true,
-      sameSite: "strict"
+      secure: true,
+      sameSite: "none"
     }
   })
 );
