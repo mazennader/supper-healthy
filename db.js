@@ -1,8 +1,15 @@
+import fs from "fs";
 import path from "path";
 import Database from "better-sqlite3";
 
 const ROOT = process.cwd();
-const DB_FILE = path.join(ROOT, "data", "site.db");
+const DATA_DIR = path.join(ROOT, "data");
+const DB_FILE = path.join(DATA_DIR, "site.db");
+
+// Ensure data directory exists (Render-safe)
+if (!fs.existsSync(DATA_DIR)) {
+  fs.mkdirSync(DATA_DIR, { recursive: true });
+}
 
 export const db = new Database(DB_FILE);
 
@@ -21,7 +28,7 @@ db.prepare(`
   )
 `).run();
 
-// Backward-compatible column safety
+// Backward compatibility
 try { db.prepare(`ALTER TABLE products ADD COLUMN grams INTEGER DEFAULT 0`).run(); } catch {}
 try { db.prepare(`ALTER TABLE products ADD COLUMN shortDesc TEXT DEFAULT ''`).run(); } catch {}
 
@@ -37,7 +44,7 @@ db.prepare(`
   )
 `).run();
 
-// ---------------- SETTINGS (🚨 THIS WAS MISSING) ----------------
+// ---------------- SETTINGS ----------------
 db.prepare(`
   CREATE TABLE IF NOT EXISTS settings (
     id INTEGER PRIMARY KEY,
@@ -46,7 +53,7 @@ db.prepare(`
   )
 `).run();
 
-// Insert default settings row if not exists
+// Default settings row
 const settingsExists = db
   .prepare("SELECT 1 FROM settings WHERE id = 1")
   .get();
