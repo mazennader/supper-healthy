@@ -26,11 +26,11 @@ app.use(
   })
 );
 
-// Static files
+// Static files (PUBLIC SITE)
 app.use(express.static(path.join(ROOT, "public")));
 app.use("/images", express.static(path.join(ROOT, "public", "images")));
 
-// Serve admin page (public, admin panel hidden until login)
+// Admin page
 app.get("/admin", (req, res) => {
   res.sendFile(path.join(ROOT, "admin", "index.html"));
 });
@@ -71,20 +71,16 @@ app.post("/api/admin/logout", requireAdmin, (req, res) => {
   });
 });
 
-// ---------- PUBLIC ROUTES ----------
-app.get("/", (req, res) => {
-  res.sendFile(path.join(ROOT, "public", "supper healthy.html"));
-});
-
-// List products
+// ---------- API ROUTES ----------
 app.get("/api/products", (req, res) => {
   const sort = String(req.query.sort || "").toLowerCase();
   const limit = Number(req.query.limit);
 
-  const settings = db.prepare("SELECT currency, whatsapp_phone FROM settings WHERE id = 1").get() || {
-    currency: "USD",
-    whatsapp_phone: ""
-  };
+  const settings =
+    db.prepare("SELECT currency, whatsapp_phone FROM settings WHERE id = 1").get() || {
+      currency: "USD",
+      whatsapp_phone: ""
+    };
 
   let sql = "SELECT * FROM products";
   if (sort === "new") sql += " ORDER BY createdAt DESC";
@@ -92,126 +88,21 @@ app.get("/api/products", (req, res) => {
 
   if (Number.isFinite(limit) && limit > 0) sql += " LIMIT ?";
 
-  const products = Number.isFinite(limit) && limit > 0
-    ? db.prepare(sql).all(limit)
-    : db.prepare(sql).all();
+  const products =
+    Number.isFinite(limit) && limit > 0
+      ? db.prepare(sql).all(limit)
+      : db.prepare(sql).all();
 
   res.json({ currency: settings.currency, whatsapp_phone: settings.whatsapp_phone, products });
 });
 
-// Single product
 app.get("/api/products/:slug", (req, res) => {
-  const slug = String(req.params.slug);
-  const product = db.prepare("SELECT * FROM products WHERE slug = ?").get(slug);
+  const product = db.prepare("SELECT * FROM products WHERE slug = ?").get(req.params.slug);
   if (!product) return res.status(404).json({ error: "Not found" });
   res.json(product);
 });
 
-// ---------- ADMIN PRODUCTS ----------
-app.get("/api/admin/products", requireAdmin, (req, res) => {
-  const products = db.prepare("SELECT * FROM products ORDER BY id DESC").all();
-  res.json(products);
+// ---------- START ----------
+app.listen(PORT, () => {
+  console.log(`✅ Backend running on port ${PORT}`);
 });
-
-app.post("/api/admin/products", requireAdmin, (req, res) => {
-  const p = req.body || {};
-  if (!p.name || !p.slug) return res.status(400).json({ error: "name + slug required" });
-
-  const exists = db.prepare("SELECT 1 FROM products WHERE slug = ?").get(String(p.slug));
-  if (exists) return res.status(409).json({ error: "slug already exists" });
-
-  const newProduct = {
-    id: Date.now(),
-    name: String(p.name),
-    slug: String(p.slug),
-    price: Number(p.price) || 0,
-    grams: Number(p.grams) || 0,
-    category: String(p.category || ""),
-    shortDesc: String(p.shortDesc || ""),
-    image: String(p.image || ""),
-    createdAt: Date.now()
-  };
-
-  db.prepare(`
-    INSERT INTO products (id, name, slug, price, grams, category, shortDesc, image, createdAt)
-    VALUES (@id,@name,@slug,@price,@grams,@category,@shortDesc,@image,@createdAt)
-  `).run(newProduct);
-
-  res.json(newProduct);
-});
-
-app.put("/api/admin/products/:slug", requireAdmin, (req, res) => {
-  const slug = String(req.params.slug);
-  const existing = db.prepare("SELECT * FROM products WHERE slug = ?").get(slug);
-  if (!existing) return res.status(404).json({ error: "Not found" });
-
-  const updated = { ...existing, ...req.body };
-  db.prepare(`
-    UPDATE products SET
-      name=?, slug=?, price=?, grams=?, category=?, shortDesc=?, image=?
-    WHERE id=?
-  `).run(
-    String(updated.name),
-    String(updated.slug),
-    Number(updated.price),
-    Number(updated.grams),
-    String(updated.category),
-    String(updated.shortDesc),
-    String(updated.image),
-    Number(existing.id)
-  );
-
-  res.json(db.prepare("SELECT * FROM products WHERE id=?").get(existing.id));
-});
-
-app.delete("/api/admin/products/:slug", requireAdmin, (req, res) => {
-  const info = db.prepare("DELETE FROM products WHERE slug=?").run(String(req.params.slug));
-  if (info.changes === 0) return res.status(404).json({ error: "Not found" });
-  res.json({ ok: true });
-});
-
-// ---------- REVIEWS ----------
-app.get("/api/reviews", (req, res) => {
-  const reviews = db.prepare("SELECT * FROM reviews WHERE approved=1 ORDER BY createdAt DESC").all();
-  res.json(reviews);
-});
-
-app.post("/api/reviews", (req, res) => {
-  const { name, title, text } = req.body || {};
-  if (!name || !title || !text) return res.status(400).json({ error: "All fields required" });
-
-  const review = {
-    id: Date.now(),
-    name: String(name),
-    title: String(title),
-    text: String(text),
-    createdAt: Date.now(),
-    approved: 0
-  };
-
-  db.prepare(`
-    INSERT INTO reviews (id, name, title, text, createdAt, approved)
-    VALUES (@id,@name,@title,@text,@createdAt,@approved)
-  `).run(review);
-
-  res.json(review);
-});
-
-// Admin reviews
-app.get("/api/admin/reviews", requireAdmin, (req, res) => {
-  const reviews = db.prepare("SELECT * FROM reviews ORDER BY createdAt DESC").all();
-  res.json(reviews);
-});
-
-app.put("/api/admin/reviews/:id/approve", requireAdmin, (req, res) => {
-  db.prepare("UPDATE reviews SET approved=1 WHERE id=?").run(Number(req.params.id));
-  res.json({ ok: true });
-});
-
-app.delete("/api/admin/reviews/:id", requireAdmin, (req, res) => {
-  db.prepare("DELETE FROM reviews WHERE id=?").run(Number(req.params.id));
-  res.json({ ok: true });
-});
-
-// Start
-app.listen(PORT, () => console.log(`✅ Backend running: http://localhost:${PORT}`));
