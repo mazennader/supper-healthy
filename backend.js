@@ -173,6 +173,29 @@ app.get("/api/products/:slug", (req, res) => {
   if (!product) return res.status(404).json({ error: "Not found" });
   res.json(product);
 });
+// ---------- PUBLIC REVIEWS ----------
+app.get("/api/reviews", (req, res) => {
+  const reviews = db
+    .prepare("SELECT * FROM reviews WHERE approved = 1 ORDER BY createdAt DESC")
+    .all();
+
+  res.json(reviews);
+});
+
+app.post("/api/reviews", (req, res) => {
+  const { name, title, text } = req.body || {};
+
+  if (!name || !title || !text) {
+    return res.status(400).json({ error: "All fields required" });
+  }
+
+  db.prepare(`
+    INSERT INTO reviews (name, title, text, createdAt, approved)
+    VALUES (?, ?, ?, ?, 0)
+  `).run(name, title, text, Date.now());
+
+  res.json({ ok: true });
+});
 
 // ---------- START ----------
 app.listen(PORT, () => {
