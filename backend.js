@@ -11,17 +11,21 @@ const app = express();
 app.set("trust proxy", 1);
 const PORT = process.env.PORT || 3000;
 const ROOT = process.cwd();
+const PgSession = pgSession(session);
 
 app.use(express.json({ limit: "1mb" }));
 
 // Session setup
-const PgSession = pgSession(session);
+
 
 app.use(
   session({
     store: new PgSession({
       conString: process.env.DATABASE_URL,
       createTableIfMissing: true,
+      ssl: {
+        rejectUnauthorized: false, // 🔴 REQUIRED ON RENDER
+      },
     }),
     name: "admin-session",
     secret: process.env.SESSION_SECRET,
@@ -30,7 +34,7 @@ app.use(
     proxy: true,
     cookie: {
       httpOnly: true,
-      secure: true, // Render HTTPS
+      secure: true,   // Render HTTPS
       sameSite: "lax",
     },
   })
