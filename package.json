@@ -12,6 +12,7 @@
   "type": "module",
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "connect-pg-simple": "^10.0.0",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "express-rate-limit": "^8.2.1",

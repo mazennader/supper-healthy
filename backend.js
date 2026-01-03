@@ -5,6 +5,7 @@ import "dotenv/config";
 import session from "express-session";
 import bcrypt from "bcrypt";
 import rateLimit from "express-rate-limit";
+import pgSession from "connect-pg-simple";
 
 const app = express();
 app.set("trust proxy", 1);
@@ -14,8 +15,14 @@ const ROOT = process.cwd();
 app.use(express.json({ limit: "1mb" }));
 
 // Session setup
+const PgSession = pgSession(session);
+
 app.use(
   session({
+    store: new PgSession({
+      conString: process.env.DATABASE_URL,
+      createTableIfMissing: true,
+    }),
     name: "admin-session",
     secret: process.env.SESSION_SECRET,
     resave: false,
@@ -23,9 +30,9 @@ app.use(
     proxy: true,
     cookie: {
       httpOnly: true,
-      secure: true,   // Render = HTTPS → required
-      sameSite: "lax" // ✅ REQUIRED for same-domain admin
-    }
+      secure: true, // Render HTTPS
+      sameSite: "lax",
+    },
   })
 );
 
