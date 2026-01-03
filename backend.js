@@ -62,7 +62,13 @@ app.post("/api/admin/login", adminLoginLimiter, async (req, res) => {
   if (!ok) return res.status(401).json({ error: "Wrong password" });
 
   req.session.isAdmin = true;
+
+req.session.save(err => {
+  if (err) {
+    return res.status(500).json({ error: "Session save failed" });
+  }
   res.json({ ok: true });
+});
 });
 
 // Logout
