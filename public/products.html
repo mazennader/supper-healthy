@@ -1040,12 +1040,16 @@ window.addEventListener('resize', () => {
     }
 
     function setCurrency(cur){
-      DISPLAY_CUR = cur === 'LBP' ? 'LBP' : 'USD';
-      curUSD.classList.toggle('active', DISPLAY_CUR === 'USD');
-      curLBP.classList.toggle('active', DISPLAY_CUR === 'LBP');
-      renderPaged();
-      updateCartUI(); // refresh totals with new currency
-    }
+  DISPLAY_CUR = cur === 'LBP' ? 'LBP' : 'USD';
+  curUSD.classList.toggle('active', DISPLAY_CUR === 'USD');
+  curLBP.classList.toggle('active', DISPLAY_CUR === 'LBP');
+
+  if (!IS_BACK_FORWARD) {
+    renderPaged();
+  }
+
+  updateCartUI();
+}
 
     curUSD?.addEventListener('click', ()=> setCurrency('USD'));
     curLBP?.addEventListener('click', ()=> setCurrency('LBP'));
@@ -1432,10 +1436,13 @@ window.addEventListener('resize', () => {
     }
 
     function doUpdate(){
-      FILTERED = applyFilters(ITEMS);
-      CURRENT_PAGE = 1;
-      renderPaged();
-    }
+  FILTERED = applyFilters(ITEMS);
+  CURRENT_PAGE = 1;
+
+  if (!IS_BACK_FORWARD) {
+    renderPaged();
+  }
+}
 
     // ===== Scroll to specific product if requested in URL =====
     function scrollToProductFromUrl() {
