@@ -948,16 +948,14 @@ if (ENABLE_FLOATERS) {
 
     // Close nav on resize back to desktop
     let resizeTimer;
-window.addEventListener('resize', () => {
+    window.addEventListener('resize', () => {
   clearTimeout(resizeTimer);
   resizeTimer = setTimeout(() => {
     if (window.innerWidth > 720) {
       navToggle.setAttribute('aria-expanded', 'false');
       primaryNav.classList.remove('open');
     }
-    if (!IS_BACK_FORWARD && window.innerWidth <= 720) {
-  renderPaged();
-}
+    // ❌ DO NOT re-render on resize
   }, 200);
 });
     
@@ -1507,12 +1505,6 @@ window.addEventListener('resize', () => {
       }
     })();
     // 🔒 Prevent flicker when coming back from product page
-window.addEventListener('pageshow', (event) => {
-  if (event.persisted) {
-    // Page restored from back/forward cache
-    return;
-  }
-});
   </script>
 </body>
 </html>
