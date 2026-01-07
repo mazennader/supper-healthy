@@ -953,7 +953,9 @@ window.addEventListener('resize', () => {
       navToggle.setAttribute('aria-expanded', 'false');
       primaryNav.classList.remove('open');
     }
-    renderPaged();
+    if (window.innerWidth <= 720) {
+  renderPaged();
+}
   }, 200);
 });
     
@@ -1404,8 +1406,7 @@ window.addEventListener('resize', () => {
     });
 
     function renderPaged(){
-      GRID.style.contentVisibility = 'auto';
-      GRID.style.containIntrinsicSize = '1000px';
+      
       const isMobile = window.matchMedia('(max-width: 720px)').matches;
       if (!FILTERED) FILTERED = [];
 
@@ -1463,6 +1464,8 @@ window.addEventListener('resize', () => {
     
 
     (async function init(){
+  if (window.__PRODUCTS_LOADED__) return;
+  window.__PRODUCTS_LOADED__ = true;
       loadCart();
       updateCartUI();
 
