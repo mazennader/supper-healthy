@@ -879,7 +879,10 @@
     });
 
     // ===== Magnetic buttons + Tilt cards =====
+    const ENABLE_TILT = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
     function enableMagnetics(){
+    if (!ENABLE_TILT) return;
       document.querySelectorAll('.mag').forEach(btn=>{
         btn.addEventListener('pointermove', e=>{
           if (htmlEl.classList.contains('no-anim')) return;
@@ -1240,6 +1243,9 @@
 
       const img = document.createElement('img');
       img.loading = 'lazy';
+      img.decoding = 'async';
+      img.width = 300;
+      img.height = 300;
       img.src = normalizeImageUrl(p[KEYMAP.image]);
       img.alt = p[KEYMAP.name] || '';
       img.onerror = () => { img.style.opacity = 0.3; };
@@ -1314,13 +1320,20 @@
     }
 
     function render(list){
-      GRID.innerHTML = '';
-      const frag = document.createDocumentFragment();
-      for (const p of list) frag.appendChild(card(p));
-      GRID.appendChild(frag);
-      enableMagnetics();
-      wireCartButtons();
-    }
+  GRID.style.visibility = 'hidden';
+
+  GRID.innerHTML = '';
+  const frag = document.createDocumentFragment();
+  for (const p of list) frag.appendChild(card(p));
+  GRID.appendChild(frag);
+
+  requestAnimationFrame(() => {
+    GRID.style.visibility = 'visible';
+    enableMagnetics();
+    wireCartButtons();
+  });
+}
+
 
     // ===== MOBILE PAGINATION RENDERING =====
     function renderPager(totalPages, current){
