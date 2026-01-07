@@ -1460,13 +1460,7 @@ window.addEventListener('resize', () => {
       }
     }
 
-    // 🔥 FIX: prevent flicker when navigating BACK to page
-window.addEventListener('pageshow', (event) => {
-  if (event.persisted) {
-    // Page restored from back/forward cache
-    window.location.reload();
-  }
-});
+    
 
     (async function init(){
       loadCart();
