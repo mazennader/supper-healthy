@@ -208,14 +208,23 @@
 
     /* CARD */
     .product{
-      border:1px solid #efe3ca; border-radius:16px; padding:1rem; text-align:center;
-      background:#fff; box-shadow:0 8px 22px rgba(0,0,0,.06);
-      display:flex; flex-direction:column;
-      min-height:520px;
-      transform: perspective(900px) rotateX(0) rotateY(0) translateY(0);
-      transition: transform .25s ease, box-shadow .25s ease;
-      will-change: transform;
-    }
+  border:1px solid #efe3ca;
+  border-radius:16px;
+  padding:1rem;
+  text-align:center;
+  background:#fff;
+  box-shadow:0 8px 22px rgba(0,0,0,.06);
+  display:flex;
+  flex-direction:column;
+  min-height:520px;
+
+  /* 🔥 PERFORMANCE FIX */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform;
+
+  transition: transform .25s ease, box-shadow .25s ease;
+}
     .product.tilt:hover{ transform: translateY(-6px) rotateX(2deg); box-shadow:0 18px 40px rgba(0,0,0,.1) }
 
     @media (max-width:520px){
@@ -819,8 +828,13 @@
       const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight);
       progress.style.width = (scrolled * 100) + '%';
     };
-    document.addEventListener('scroll', onScroll, {passive:true});
-    onScroll();
+    if (window.innerWidth > 900) {
+  document.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+} else {
+  progress.style.display = 'none';
+}
+
 
     // ===== Floating seeds =====
     const floaters = document.getElementById('floaters');
@@ -844,9 +858,19 @@
       seeds++;
       setTimeout(()=> { s.remove(); seeds--; }, 18000);
     }
-    function spawn(){ if (!document.hidden) makeSeed(); setTimeout(spawn, 900); }
-    document.addEventListener('visibilitychange', ()=> { running = !document.hidden; });
-    spawn();
+    const ENABLE_FLOATERS = window.matchMedia('(min-width: 900px)').matches;
+
+if (ENABLE_FLOATERS) {
+  function spawn(){
+    if (!document.hidden) makeSeed();
+    setTimeout(spawn, 1200);
+  }
+  document.addEventListener('visibilitychange', ()=> {
+    running = !document.hidden;
+  });
+  spawn();
+}
+
 
     // ===== Reveal on scroll =====
     const io = new IntersectionObserver((entries)=>{
@@ -857,7 +881,12 @@
         }
       });
     }, { threshold: 0.12 });
-    document.querySelectorAll('.reveal').forEach(el=> io.observe(el));
+    if (window.innerWidth > 900) {
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+} else {
+  document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+}
+
 
     // ===== Back-to-Top button =====
     const toTop = document.getElementById('toTop');
@@ -1216,8 +1245,11 @@
     });
 
     function wireCartButtons(){
-      document.querySelectorAll('.cart-btn').forEach(btn=>{
-        btn.addEventListener('click', ()=>{
+  document.querySelectorAll('.cart-btn').forEach(btn=>{
+    if (btn.dataset.bound) return;
+    btn.dataset.bound = '1';
+
+    btn.addEventListener('click', ()=>{
           const slug = btn.dataset.slug || '';
           const product = ITEMS.find(p => (p[KEYMAP.slug] || '') === slug);
           if (product) addToCart(product);
