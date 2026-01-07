@@ -297,18 +297,10 @@
     }
 
     /* reveal-on-scroll */
-    .reveal{ opacity:0; transform: translateY(16px); }
-    .reveal.in{ opacity:1; transform:none; transition: opacity .6s ease, transform .6s ease; }
-    .reveal.in > *{
-      --d:0ms; opacity:0; transform: translateY(12px);
-      animation: up .5s cubic-bezier(.2,.75,.2,1) var(--d) forwards;
-    }
-    .reveal.in > *:nth-child(1){ --d:60ms }
-    .reveal.in > *:nth-child(2){ --d:120ms }
-    .reveal.in > *:nth-child(3){ --d:180ms }
-    .reveal.in > *:nth-child(4){ --d:240ms }
-    .reveal.in > *:nth-child(5){ --d:300ms }
-    @keyframes up{ to{ opacity:1; transform:none } }
+    .reveal{
+  opacity:1;
+  transform:none;
+}
 
     /* Back-to-Top */
     .to-top{
@@ -873,19 +865,6 @@ if (ENABLE_FLOATERS) {
 
 
     // ===== Reveal on scroll =====
-    const io = new IntersectionObserver((entries)=>{
-      entries.forEach(entry=>{
-        if(entry.isIntersecting){
-          entry.target.classList.add('in');
-          io.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12 });
-    if (window.innerWidth > 900) {
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-} else {
-  document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
-}
 
 
     // ===== Back-to-Top button =====
@@ -1240,9 +1219,6 @@ window.addEventListener('resize', () => {
       lines.push('');
       lines.push(`Total (approx): $${totalUSD.toFixed(2)}`);
       lines.push('');
-      lines.push('Name:');
-      lines.push('Location:');
-      lines.push('Phone:');
       const msg = encodeURIComponent(lines.join('\n'));
       const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`;
       window.open(url, '_blank');
@@ -1278,7 +1254,7 @@ window.addEventListener('resize', () => {
       wrap.className = 'img-wrap';
 
       const img = document.createElement('img');
-      img.loading = 'lazy';
+      img.loading = window.innerWidth < 720 ? 'eager' : 'lazy';
       img.decoding = 'async';
       img.width = 300;
       img.height = 300;
