@@ -807,6 +807,8 @@
   <script id="__PRODUCTS_JSON__" type="application/json"></script>
 
   <script>
+    const IS_BACK_FORWARD =
+    performance.getEntriesByType('navigation')[0]?.type === 'back_forward';
     // ===== Respect OS reduced-motion =====
     const htmlEl = document.documentElement;
     const rm = matchMedia('(prefers-reduced-motion: reduce)');
@@ -953,7 +955,7 @@ window.addEventListener('resize', () => {
       navToggle.setAttribute('aria-expanded', 'false');
       primaryNav.classList.remove('open');
     }
-    if (window.innerWidth <= 720) {
+    if (!IS_BACK_FORWARD && window.innerWidth <= 720) {
   renderPaged();
 }
   }, 200);
@@ -1406,7 +1408,7 @@ window.addEventListener('resize', () => {
     });
 
     function renderPaged(){
-      
+      if (IS_BACK_FORWARD) return;    
       const isMobile = window.matchMedia('(max-width: 720px)').matches;
       if (!FILTERED) FILTERED = [];
 
@@ -1464,6 +1466,9 @@ window.addEventListener('resize', () => {
     
 
     (async function init(){
+  if (performance.getEntriesByType('navigation')[0]?.type === 'back_forward') {
+    return;
+  }
   if (window.__PRODUCTS_LOADED__) return;
   window.__PRODUCTS_LOADED__ = true;
       loadCart();
@@ -1495,6 +1500,13 @@ window.addEventListener('resize', () => {
         GRID.innerHTML = `<div class="sub">${e.message}</div>`;
       }
     })();
+    // 🔒 Prevent flicker when coming back from product page
+window.addEventListener('pageshow', (event) => {
+  if (event.persisted) {
+    // Page restored from back/forward cache
+    return;
+  }
+});
   </script>
 </body>
 </html>
