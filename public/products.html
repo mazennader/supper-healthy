@@ -966,14 +966,18 @@ if (ENABLE_FLOATERS) {
     }
 
     // Close nav on resize back to desktop
-    window.addEventListener('resize', () => {
-      if (window.innerWidth > 720) {
-        navToggle.setAttribute('aria-expanded', 'false');
-        primaryNav.classList.remove('open');
-      }
-      renderPaged();
-    });
-
+    let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    if (window.innerWidth > 720) {
+      navToggle.setAttribute('aria-expanded', 'false');
+      primaryNav.classList.remove('open');
+    }
+    renderPaged();
+  }, 200);
+});
+    
     // Close nav after clicking a link on mobile
     primaryNav.addEventListener('click', (e) => {
       if (e.target.tagName === 'A' && window.innerWidth <= 720) {
@@ -1352,18 +1356,22 @@ if (ENABLE_FLOATERS) {
     }
 
     function render(list){
-  GRID.style.visibility = 'hidden';
-
+  // 🛑 DO NOT hide grid (causes reflow)
   GRID.innerHTML = '';
+
   const frag = document.createDocumentFragment();
-  for (const p of list) frag.appendChild(card(p));
+  for (const p of list) {
+    frag.appendChild(card(p));
+  }
+
   GRID.appendChild(frag);
 
-  requestAnimationFrame(() => {
-    GRID.style.visibility = 'visible';
+  // 🔥 Mobile safety: skip heavy effects
+  if (window.innerWidth > 900) {
     enableMagnetics();
-    wireCartButtons();
-  });
+  }
+
+  wireCartButtons();
 }
 
 
@@ -1420,6 +1428,8 @@ if (ENABLE_FLOATERS) {
     });
 
     function renderPaged(){
+      GRID.style.contentVisibility = 'auto';
+      GRID.style.containIntrinsicSize = '1000px';
       const isMobile = window.matchMedia('(max-width: 720px)').matches;
       if (!FILTERED) FILTERED = [];
 
