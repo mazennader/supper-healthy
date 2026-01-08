@@ -288,7 +288,17 @@
         return;
       }
 
-      document.title = `${product.name} • Super Healthy`;
+      const gramsText = product.grams > 0 ? ` ${product.grams}g` : '';
+
+document.title = `${product.name}${gramsText} – Healthy Snack in Lebanon | Super Healthy`;
+
+const metaDesc = document.querySelector('meta[name="description"]');
+if (metaDesc) {
+  metaDesc.setAttribute(
+    'content',
+    `${product.name}${gramsText} made with clean ingredients. A healthy snack made fresh in Lebanon by Super Healthy.`
+  );
+}
 
       root.innerHTML = `
         <nav class="breadcrumb">
