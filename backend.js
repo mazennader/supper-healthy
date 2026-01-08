@@ -156,6 +156,50 @@ app.delete("/api/admin/reviews/:id", requireAdmin, async (req, res) => {
   ]);
   res.json({ ok: true });
 });
+// ---------------- SITEMAP ----------------
+app.get("/sitemap.xml", async (req, res) => {
+  try {
+    const { rows: products } = await db.query(
+      "SELECT slug FROM products"
+    );
+
+    const baseUrl = "https://manounelb.com";
+
+    let urls = `
+      <url>
+        <loc>${baseUrl}/</loc>
+      </url>
+      <url>
+        <loc>${baseUrl}/products.html</loc>
+      </url>
+      <url>
+        <loc>${baseUrl}/who-we-are.html</loc>
+      </url>
+      <url>
+        <loc>${baseUrl}/locate-us.html</loc>
+      </url>
+    `;
+
+    products.forEach(p => {
+      urls += `
+        <url>
+          <loc>${baseUrl}/product.html?slug=${p.slug}</loc>
+        </url>
+      `;
+    });
+
+    const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls}
+</urlset>`;
+
+    res.header("Content-Type", "application/xml");
+    res.send(sitemap);
+  } catch (err) {
+    console.error("Sitemap error:", err);
+    res.status(500).end();
+  }
+});
 
 // ---------------- PUBLIC PRODUCTS ----------------
 app.get("/api/products", async (req, res) => {
