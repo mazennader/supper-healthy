@@ -134,6 +134,11 @@
 
     .title{ margin:.2rem 0 .5rem; font-size:clamp(1.4rem,3vw,2rem); }
     .price{ color:#7a4a1f; margin:.2rem 0 1rem; font-weight:900; }
+    .grams{
+  font-weight:800;
+  color:#194746;
+  margin:-0.6rem 0 1rem;
+}
     .muted{ color:var(--muted); }
 
     .actions{
@@ -299,8 +304,9 @@
 
           <div>
             <h1 class="title">${product.name}</h1>
-            <p class="price">${fmtPrice(product.price, currency)}</p>
-            <p>${product.shortDesc || ''}</p>
+           <p class="price">${fmtPrice(product.price, currency)}</p>
+           ${product.grams > 0 ? `<p class="grams">${product.grams} g</p>` : ''}
+           <p>${product.shortDesc || ''}</p>
 
             <div class="actions">
               <a class="btn" href="/products.html">Back to all products</a>
