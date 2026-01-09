@@ -254,22 +254,11 @@
   background:#edfffd;
 }
 
-.marquee-track{
+.marquee-wrap{
   display:flex;
-  gap:1.4rem;
-  padding:.38rem 0;
-  font-weight:900;
-  letter-spacing:.4px;
-  color:#0f7f7c;
-  white-space:nowrap;
-
-  animation: marquee-move 12s linear infinite;
+  width:max-content;
+  animation: marquee-loop 12s linear infinite;
   will-change: transform;
-}
-
-@keyframes marquee-move{
-  from { transform: translate3d(0,0,0); }
-  to   { transform: translate3d(-100%,0,0); }
 }
 
 .marquee-track{
@@ -280,10 +269,11 @@
   letter-spacing:.4px;
   color:#0f7f7c;
   white-space:nowrap;
+}
 
-  width:200%;
-  animation: marquee-move 12s linear infinite;
-  will-change: transform;
+@keyframes marquee-loop{
+  from{ transform: translate3d(0,0,0); }
+  to{ transform: translate3d(-50%,0,0); }
 }
 .marquee{
   contain: layout paint;
@@ -595,20 +585,24 @@
     <!-- HIGHLIGHT / MARQUEE -->
     <section class="section reveal">
       <div class="container card">
-        <div class="marquee" aria-hidden="true">
-          <div class="marquee-track">
-            <span>SEED-BASED ENERGY</span>
-            <span>PLANT-BASED GOODNESS</span>
-            <span>NO ARTIFICIAL COLORS</span>
-            <span>NO PRESERVATIVES</span>
-            <span>ROASTED, NOT FRIED</span>
+        <div class="marquee">
+          <div class="marquee-wrap">
+            <div class="marquee-track">
+              <span>SEED-BASED ENERGY</span>
+              <span>PLANT-BASED GOODNESS</span>
+              <span>NO ARTIFICIAL COLORS</span>
+              <span>NO PRESERVATIVES</span>
+              <span>ROASTED, NOT FRIED</span>
+            </div>
         
-            <!-- duplicate ONCE in HTML (not JS) -->
-            <span>SEED-BASED ENERGY</span>
-            <span>PLANT-BASED GOODNESS</span>
-            <span>NO ARTIFICIAL COLORS</span>
-            <span>NO PRESERVATIVES</span>
-            <span>ROASTED, NOT FRIED</span>
+            <!-- clone -->
+            <div class="marquee-track">
+              <span>SEED-BASED ENERGY</span>
+              <span>PLANT-BASED GOODNESS</span>
+              <span>NO ARTIFICIAL COLORS</span>
+              <span>NO PRESERVATIVES</span>
+              <span>ROASTED, NOT FRIED</span>
+            </div>
           </div>
         </div>
         <h2>Why we build snacks around seeds</h2>
