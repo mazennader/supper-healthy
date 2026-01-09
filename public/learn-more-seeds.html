@@ -248,21 +248,29 @@
 
     /* marquee */
     .marquee{
-      overflow:hidden; border-radius:999px; border:1px solid #d8efe7; background:#edfffd;
-      margin-bottom:1rem;
-    }
-    .marquee-inner{
-      display:flex; flex-wrap:nowrap; width:max-content;
-      padding:.38rem 0;
-      font-weight:900; letter-spacing:.4px; color:#0f7f7c;
-      animation:scrollx 14s linear infinite;
-      will-change:transform;
-    }
-    .marquee-inner > span{ padding:0 .9rem; flex:0 0 auto; }
-    @keyframes scrollx{
-      0%   { transform:translateX(0); }
-      100% { transform:translateX(-50%); }
-    }
+  overflow:hidden;
+  border-radius:999px;
+  border:1px solid #d8efe7;
+  background:#edfffd;
+}
+
+.marquee-track{
+  display:flex;
+  gap:1.4rem;
+  padding:.38rem 0;
+  font-weight:900;
+  letter-spacing:.4px;
+  color:#0f7f7c;
+  white-space:nowrap;
+
+  animation: marquee-move 18s linear infinite;
+  will-change: transform;
+}
+
+@keyframes marquee-move{
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
 
     /* grid for seed cards */
     .grid{ display:grid; gap:1rem; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
@@ -571,10 +579,14 @@
     <section class="section reveal">
       <div class="container card">
         <div class="marquee" aria-hidden="true">
-          <div class="marquee-inner">
+          <div class="marquee-track">
+            <span>SEED-BASED ENERGY</span>
+            <span>PLANT-BASED GOODNESS</span>
             <span>NO ARTIFICIAL COLORS</span>
             <span>NO PRESERVATIVES</span>
             <span>ROASTED, NOT FRIED</span>
+        
+            <!-- duplicate ONCE in HTML (not JS) -->
             <span>SEED-BASED ENERGY</span>
             <span>PLANT-BASED GOODNESS</span>
             <span>NO ARTIFICIAL COLORS</span>
@@ -921,16 +933,6 @@ if (window.innerWidth > 820) {
         }
       });
     }
-  </script>
-
-  <script>
-    // Duplicate marquee content for a seamless loop
-    (function(){
-      const track = document.querySelector('.marquee-inner');
-      if (!track || document.documentElement.classList.contains('no-anim')) return;
-      const unit = track.innerHTML;
-      track.innerHTML = unit + unit;
-    })();
   </script>
 </body>
 </html>
