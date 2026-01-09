@@ -248,21 +248,35 @@
 
     /* marquee */
     .marquee{
-      overflow:hidden; border-radius:999px; border:1px solid #d8efe7; background:#edfffd;
-    }
-    .marquee-inner{
-      display:flex; flex-wrap:nowrap; width:max-content;
-      padding:.38rem 0;
-      font-weight:900; letter-spacing:.4px; color:#0f7f7c;
-      animation:scrollx 14s linear infinite;
-      will-change:transform;
-      font-size:.8rem;
-    }
-    .marquee-inner > span{ padding:0 .9rem; flex:0 0 auto; }
-    @keyframes scrollx{
-      0%   { transform:translateX(0); }
-      100% { transform:translateX(-50%); }
-    }
+  overflow:hidden;
+  border-radius:999px;
+  border:1px solid #d8efe7;
+  background:#edfffd;
+  contain: layout paint;
+}
+
+.marquee-wrap{
+  display:flex;
+  width:max-content;
+  animation: marquee-loop 10s linear infinite;
+  will-change: transform;
+}
+
+.marquee-track{
+  display:flex;
+  gap:1.4rem;
+  padding:.38rem 0;
+  font-weight:900;
+  letter-spacing:.4px;
+  color:#0f7f7c;
+  white-space:nowrap;
+  font-size:.8rem;
+}
+
+@keyframes marquee-loop{
+  from { transform: translate3d(0,0,0); }
+  to   { transform: translate3d(-50%,0,0); }
+}
     /* grid for seed cards */
     .grid{ display:grid; gap:1rem; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
 
@@ -569,10 +583,18 @@
     <!-- HIGHLIGHT / MARQUEE -->
     <section class="section reveal">
       <div class="container card">
-        <div class="marquee" aria-hidden="true">
-          <div class="marquee-inner">
-            <span>SEED-BASED ENERGY</span><span>PLANT-BASED GOODNESS</span><span>NO ARTIFICIAL COLOR</span><span>NO PRESERVATIVES</span><span>ROASTED,NOT FRIED</span>
-            <span>SEED-BASED ENERGY</span><span>PLANT-BASED GOODNESS</span><span>NO ARTIFICIAL COLOR</span><span>NO PRESERVATIVES</span><span>ROASTED,NOT FRIED</span>
+        <div class="marquee">
+          <div class="marquee-wrap">
+            <div class="marquee-track">
+              <span>SEED-BASED ENERGY</span><span>PLANT-BASED GOODNESS</span>
+              <span>NO ARTIFICIAL COLOR</span><span>NO PRESERVATIVES</span>
+              <span>ROASTED, NOT FRIED</span>
+            </div>
+            <div class="marquee-track">
+              <span>SEED-BASED ENERGY</span><span>PLANT-BASED GOODNESS</span>
+              <span>NO ARTIFICIAL COLOR</span><span>NO PRESERVATIVES</span>
+              <span>ROASTED, NOT FRIED</span>
+            </div>
           </div>
         </div>
         <h2>Why we build snacks around seeds</h2>
