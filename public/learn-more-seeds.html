@@ -268,8 +268,25 @@
 }
 
 @keyframes marquee-move{
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  from { transform: translate3d(0,0,0); }
+  to   { transform: translate3d(-100%,0,0); }
+}
+
+.marquee-track{
+  display:flex;
+  gap:1.4rem;
+  padding:.38rem 0;
+  font-weight:900;
+  letter-spacing:.4px;
+  color:#0f7f7c;
+  white-space:nowrap;
+
+  width:200%;
+  animation: marquee-move 20s linear infinite;
+  will-change: transform;
+}
+.marquee{
+  contain: layout paint;
 }
 
     /* grid for seed cards */
